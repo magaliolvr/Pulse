@@ -324,7 +324,7 @@ const Dashboard = () => {
             />
             <KPICard
               title={t.dashboard.kpi.cost.title}
-              value={`R$${currentSpend}`}
+              value={`€${currentSpend}`}
               change={8}
               changeLabel={t.dashboard.kpi.cost.change}
               icon={Wallet}
@@ -333,7 +333,7 @@ const Dashboard = () => {
             />
             <KPICard
               title={t.dashboard.kpi.savings.title}
-              value={`R$${projectedSavings}`}
+              value={`€${projectedSavings}`}
               change={15}
               changeLabel={t.dashboard.kpi.savings.change}
               icon={TrendingDown}
@@ -342,7 +342,7 @@ const Dashboard = () => {
             />
             <KPICard
               title={t.dashboard.kpi.budget.title}
-              value={`R$${Math.round(budget - currentSpend)}`}
+              value={`€${Math.round(budget - currentSpend)}`}
               change={5}
               changeLabel={t.dashboard.kpi.budget.status.onTrack}
               icon={BarChart3}
