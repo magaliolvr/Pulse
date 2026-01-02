@@ -1,21 +1,43 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X, Zap } from "lucide-react";
+import { Menu, X, Zap, LogOut, User } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { useAuth } from "@/hooks/useAuth";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
   const { t } = useLanguage();
+  const { user, profile, signOut } = useAuth();
 
   const navLinks = [
     { href: "/", label: t.nav.home },
     { href: "/pricing", label: t.nav.pricing },
-    { href: "/dashboard", label: t.nav.dashboard },
+    ...(user ? [{ href: "/dashboard", label: t.nav.dashboard }] : []),
   ];
+
+  const handleSignOut = async () => {
+    await signOut();
+  };
+
+  const getInitials = (name: string) => {
+    return name
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase()
+      .slice(0, 2);
+  };
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 glass">
@@ -47,12 +69,42 @@ export function Navbar() {
           {/* Desktop CTA */}
           <div className="hidden md:flex items-center gap-3">
             <LanguageSwitcher />
-            <Button variant="ghost" size="sm" asChild>
-              <Link to="/onboarding">{t.nav.signIn}</Link>
-            </Button>
-            <Button variant="hero" size="sm" asChild>
-              <Link to="/onboarding">{t.nav.startFreeTrial}</Link>
-            </Button>
+            
+            {user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="sm" className="gap-2">
+                    <div className="w-8 h-8 rounded-full gradient-hero flex items-center justify-center text-xs font-medium text-primary-foreground">
+                      {profile?.full_name ? getInitials(profile.full_name) : <User className="w-4 h-4" />}
+                    </div>
+                    <span className="max-w-24 truncate">
+                      {profile?.full_name?.split(" ")[0] || t.nav.dashboard}
+                    </span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48">
+                  <DropdownMenuItem asChild>
+                    <Link to="/dashboard" className="cursor-pointer">
+                      {t.nav.dashboard}
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleSignOut} className="cursor-pointer text-destructive">
+                    <LogOut className="w-4 h-4 mr-2" />
+                    {t.dashboard.signOut}
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <>
+                <Button variant="ghost" size="sm" asChild>
+                  <Link to="/auth">{t.nav.signIn}</Link>
+                </Button>
+                <Button variant="hero" size="sm" asChild>
+                  <Link to="/auth">{t.nav.startFreeTrial}</Link>
+                </Button>
+              </>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -91,12 +143,29 @@ export function Navbar() {
                 <div className="flex justify-center">
                   <LanguageSwitcher />
                 </div>
-                <Button variant="outline" className="w-full" asChild>
-                  <Link to="/onboarding">{t.nav.signIn}</Link>
-                </Button>
-                <Button variant="hero" className="w-full" asChild>
-                  <Link to="/onboarding">{t.nav.startFreeTrial}</Link>
-                </Button>
+                {user ? (
+                  <>
+                    <div className="flex items-center justify-center gap-2 py-2">
+                      <div className="w-8 h-8 rounded-full gradient-hero flex items-center justify-center text-xs font-medium text-primary-foreground">
+                        {profile?.full_name ? getInitials(profile.full_name) : <User className="w-4 h-4" />}
+                      </div>
+                      <span className="font-medium">{profile?.full_name || "User"}</span>
+                    </div>
+                    <Button variant="outline" className="w-full" onClick={handleSignOut}>
+                      <LogOut className="w-4 h-4 mr-2" />
+                      {t.dashboard.signOut}
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <Button variant="outline" className="w-full" asChild>
+                      <Link to="/auth">{t.nav.signIn}</Link>
+                    </Button>
+                    <Button variant="hero" className="w-full" asChild>
+                      <Link to="/auth">{t.nav.startFreeTrial}</Link>
+                    </Button>
+                  </>
+                )}
               </div>
             </div>
           </motion.div>
