@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useLocation, Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { 
   ArrowDown, 
@@ -13,11 +13,12 @@ import {
   Menu,
   Settings,
   TrendingDown, 
-  TrendingUp, 
   Wallet, 
   Zap,
   AlertCircle,
-  RefreshCw
+  RefreshCw,
+  LogOut,
+  User
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -34,6 +35,14 @@ import {
 } from "recharts";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { useAuth } from "@/hooks/useAuth";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 // Mock data generation
 const generateDailyData = () => {
@@ -106,11 +115,12 @@ const KPICard = ({ title, value, change, changeLabel, icon: Icon, trend, loading
 };
 
 const Dashboard = () => {
-  const location = useLocation();
-  const userData = location.state as { plan?: string; monthlyBudget?: string } | null;
-  const plan = userData?.plan || "Free";
-  const budget = parseInt(userData?.monthlyBudget || "150");
+  const navigate = useNavigate();
   const { t } = useLanguage();
+  const { profile, signOut } = useAuth();
+  
+  const plan = profile?.subscription_plan || "Free";
+  const budget = profile?.monthly_budget || 150;
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -119,7 +129,7 @@ const Dashboard = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   // Calculate dynamic values based on plan
-  const planMultiplier = plan === "Premium" ? 0.85 : plan === "Family" ? 0.75 : 1;
+  const planMultiplier = plan === "Pro" ? 0.85 : plan === "Family" ? 0.75 : 1;
   const currentSpend = Math.floor(budget * 0.72 * planMultiplier);
   const projectedSavings = Math.floor(budget * 0.23 * planMultiplier);
   const consumption = Math.floor(245 * planMultiplier);
@@ -143,6 +153,20 @@ const Dashboard = () => {
       setMonthlyData(generateMonthlyData());
       setLoading(false);
     }, 1500);
+  };
+
+  const handleSignOut = async () => {
+    await signOut();
+    navigate("/");
+  };
+
+  const getInitials = (name: string) => {
+    return name
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase()
+      .slice(0, 2);
   };
 
   const menuItems = [
@@ -183,18 +207,20 @@ const Dashboard = () => {
         className="bg-card border-r border-border flex flex-col fixed h-full z-40"
       >
         <div className="p-4 flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl gradient-hero flex items-center justify-center flex-shrink-0">
-            <Zap className="w-5 h-5 text-primary-foreground" />
-          </div>
-          {sidebarOpen && (
-            <motion.span
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="font-display font-bold text-xl gradient-text"
-            >
-              Pulse
-            </motion.span>
-          )}
+          <Link to="/" className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl gradient-hero flex items-center justify-center flex-shrink-0">
+              <Zap className="w-5 h-5 text-primary-foreground" />
+            </div>
+            {sidebarOpen && (
+              <motion.span
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="font-display font-bold text-xl gradient-text"
+              >
+                Pulse
+              </motion.span>
+            )}
+          </Link>
         </div>
 
         <nav className="flex-1 p-4 space-y-2">
@@ -233,9 +259,14 @@ const Dashboard = () => {
         <header className="sticky top-0 z-30 bg-background/80 backdrop-blur-xl border-b border-border px-8 py-4">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-2xl font-display font-bold">{t.dashboard.title}</h1>
+              <h1 className="text-2xl font-display font-bold">
+                {profile?.full_name 
+                  ? `${t.dashboard.welcomeUser} ${profile.full_name.split(" ")[0]}!`
+                  : t.dashboard.welcome
+                }
+              </h1>
               <p className="text-muted-foreground text-sm">
-                {t.dashboard.welcome}
+                {t.dashboard.subtitle}
               </p>
             </div>
             <div className="flex items-center gap-4">
@@ -246,11 +277,34 @@ const Dashboard = () => {
                   <ChevronDown className="w-4 h-4 text-primary" />
                 )}
               </div>
-              <Link to="/">
-                <Button variant="outline" size="sm">
-                  {t.nav.home}
-                </Button>
-              </Link>
+              
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="sm" className="gap-2">
+                    <div className="w-8 h-8 rounded-full gradient-hero flex items-center justify-center text-xs font-medium text-primary-foreground">
+                      {profile?.full_name ? getInitials(profile.full_name) : <User className="w-4 h-4" />}
+                    </div>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48">
+                  <div className="px-2 py-1.5">
+                    <p className="font-medium text-sm">{profile?.full_name}</p>
+                    <p className="text-xs text-muted-foreground">{profile?.email}</p>
+                  </div>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem asChild>
+                    <Link to="/" className="cursor-pointer">
+                      <Home className="w-4 h-4 mr-2" />
+                      {t.nav.home}
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleSignOut} className="cursor-pointer text-destructive">
+                    <LogOut className="w-4 h-4 mr-2" />
+                    {t.dashboard.signOut}
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
         </header>
@@ -288,7 +342,7 @@ const Dashboard = () => {
             />
             <KPICard
               title={t.dashboard.kpi.budget.title}
-              value={`R$${budget - currentSpend}`}
+              value={`R$${Math.round(budget - currentSpend)}`}
               change={5}
               changeLabel={t.dashboard.kpi.budget.status.onTrack}
               icon={BarChart3}
