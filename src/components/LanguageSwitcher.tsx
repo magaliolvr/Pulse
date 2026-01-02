@@ -30,7 +30,7 @@ export function LanguageSwitcher() {
           onClick={() => setLanguage("en")}
           className={language === "en" ? "bg-accent" : ""}
         >
-          🇺🇸 English
+          🇬🇧 English
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

@@ -12,6 +12,7 @@ import Onboarding from "./pages/Onboarding";
 import Dashboard from "./pages/Dashboard";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
+import { ROUTES } from "@/constants/routes";
 
 const queryClient = new QueryClient();
 
@@ -24,15 +25,15 @@ const App = () => (
           <Sonner />
           <BrowserRouter>
             <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/pricing" element={<Pricing />} />
-              <Route path="/auth" element={<Auth />} />
-              <Route path="/onboarding" element={
+              <Route path={ROUTES.HOME} element={<Index />} />
+              <Route path={ROUTES.PRICING} element={<Pricing />} />
+              <Route path={ROUTES.AUTH} element={<Auth />} />
+              <Route path={ROUTES.ONBOARDING} element={
                 <ProtectedRoute requireOnboarding={false}>
                   <Onboarding />
                 </ProtectedRoute>
               } />
-              <Route path="/dashboard" element={
+              <Route path={ROUTES.DASHBOARD} element={
                 <ProtectedRoute>
                   <Dashboard />
                 </ProtectedRoute>

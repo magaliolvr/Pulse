@@ -30,6 +30,8 @@ import {
 import { cn } from "@/lib/utils";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
+import { ROUTES } from "@/constants/routes";
+import type { LocationState } from "@/types/navigation";
 
 type AuthMode = "login" | "signup";
 type SignupStep = 1 | 2 | 3;
@@ -65,7 +67,8 @@ const Auth = () => {
   // Redirect if already logged in
   useEffect(() => {
     if (user && !authLoading) {
-      const from = (location.state as any)?.from?.pathname || "/dashboard";
+      const state = location.state as LocationState | null;
+      const from = state?.from?.pathname || ROUTES.DASHBOARD;
       navigate(from, { replace: true });
     }
   }, [user, authLoading, navigate, location]);
@@ -167,7 +170,7 @@ const Auth = () => {
       return;
     }
     // With auto-confirm enabled, this step is skipped
-    navigate("/onboarding");
+    navigate(ROUTES.ONBOARDING);
   };
 
   if (authLoading) {
@@ -188,7 +191,7 @@ const Auth = () => {
         </div>
         
         <div className="relative z-10">
-          <Link to="/" className="flex items-center gap-2 font-display font-bold text-2xl text-white">
+          <Link to={ROUTES.HOME} className="flex items-center gap-2 font-display font-bold text-2xl text-white">
             <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
               <Zap className="w-6 h-6 text-white" />
             </div>
@@ -285,7 +288,7 @@ const Auth = () => {
                   <div>
                     <div className="flex items-center justify-between">
                       <Label htmlFor="password">{t.auth.password}</Label>
-                      <Link to="/forgot-password" className="text-sm text-primary hover:underline">
+                      <Link to={ROUTES.FORGOT_PASSWORD} className="text-sm text-primary hover:underline">
                         {t.auth.forgotPassword}
                       </Link>
                     </div>
@@ -538,11 +541,11 @@ const Auth = () => {
                         />
                         <label htmlFor="terms" className="text-sm text-muted-foreground leading-relaxed">
                           {t.auth.acceptTermsText}{" "}
-                          <Link to="/terms" className="text-primary hover:underline">
+                          <Link to={ROUTES.TERMS} className="text-primary hover:underline">
                             {t.auth.termsOfService}
                           </Link>{" "}
                           {t.auth.and}{" "}
-                          <Link to="/privacy" className="text-primary hover:underline">
+                          <Link to={ROUTES.PRIVACY} className="text-primary hover:underline">
                             {t.auth.privacyPolicy}
                           </Link>
                         </label>

@@ -22,6 +22,9 @@ import {
 } from "recharts";
 import { Button } from "@/components/ui/button";
 import { ArrowDown, ArrowUp } from "lucide-react";
+import { DEFAULT_PLAN, PLAN_MULTIPLIERS } from "@/constants/plans";
+import type { SubscriptionPlan } from "@/constants/plans";
+import { APP_CONFIG } from "@/config/app";
 
 const generateDailyData = () => {
   return Array.from({ length: 7 }, (_, i) => ({
@@ -96,14 +99,14 @@ export const OverviewScreen = () => {
   const { t } = useLanguage();
   const { profile } = useAuth();
 
-  const plan = profile?.subscription_plan || "Free";
-  const budget = profile?.monthly_budget || 150;
+  const plan = (profile?.subscription_plan as SubscriptionPlan | undefined) || DEFAULT_PLAN;
+  const budget = profile?.monthly_budget || APP_CONFIG.DEFAULT_BUDGET;
 
   const [loading, setLoading] = useState(true);
   const [dailyData, setDailyData] = useState<ReturnType<typeof generateDailyData>>([]);
   const [monthlyData, setMonthlyData] = useState<ReturnType<typeof generateMonthlyData>>([]);
 
-  const planMultiplier = plan === "Pro" ? 0.85 : plan === "Family" ? 0.75 : 1;
+  const planMultiplier = PLAN_MULTIPLIERS[plan];
   const currentSpend = Math.floor(budget * 0.72 * planMultiplier);
   const projectedSavings = Math.floor(budget * 0.23 * planMultiplier);
   const consumption = Math.floor(245 * planMultiplier);
@@ -113,7 +116,7 @@ export const OverviewScreen = () => {
       setDailyData(generateDailyData());
       setMonthlyData(generateMonthlyData());
       setLoading(false);
-    }, 1500);
+    }, APP_CONFIG.LOADING_DELAY_MS);
 
     return () => clearTimeout(timer);
   }, []);
