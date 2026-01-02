@@ -18,9 +18,9 @@ export const translations = {
       secondaryCta: "Ver planos",
       noCreditCard: "Sem cartão de crédito • Teste grátis de 14 dias",
       stats: {
-        users: "10k+ usuários",
+        users: "10k+ utilizadores",
         rating: "4.9/5 avaliação",
-        savings: "Economia de $2M+",
+        savings: "Economia de €2M+",
       },
     },
     // Features
@@ -74,7 +74,7 @@ export const translations = {
         {
           name: "Ana R.",
           role: "Família de 4",
-          content: "Economizamos mais de R$2.500 este ano usando o Pulse. As crianças até gostam de checar nossas estatísticas diárias!",
+          content: "Economizámos mais de €250 este ano a usar o Pulse. As crianças até gostam de ver as nossas estatísticas diárias!",
         },
       ],
     },
@@ -172,10 +172,10 @@ export const translations = {
           ],
         },
         budget: {
-          title: "Qual é seu orçamento mensal de energia?",
-          description: "Isso nos ajuda a definir metas e alertas realistas.",
-          placeholder: "Ex: R$ 250",
-          hint: "Você pode ajustar isso depois nas configurações.",
+          title: "Qual é o seu orçamento mensal de energia?",
+          description: "Isso ajuda-nos a definir metas e alertas realistas.",
+          placeholder: "Ex: € 100",
+          hint: "Pode ajustar isto depois nas configurações.",
         },
         household: {
           title: "Quantas pessoas moram na sua casa?",
@@ -271,8 +271,8 @@ export const translations = {
       confirmPasswordPlaceholder: "Digite a senha novamente",
       fullName: "Nome completo",
       fullNamePlaceholder: "Seu nome completo",
-      phone: "Telefone",
-      phonePlaceholder: "+55 (11) 99999-9999",
+      phone: "Telemóvel",
+      phonePlaceholder: "912 345 678",
       optional: "opcional",
       forgotPassword: "Esqueceu a senha?",
       signIn: "Entrar",
@@ -479,7 +479,7 @@ export const translations = {
         budget: {
           title: "What's your monthly energy budget?",
           description: "This helps us set realistic goals and alerts.",
-          placeholder: "e.g. $150",
+          placeholder: "e.g. €100",
           hint: "You can adjust this later in settings.",
         },
         household: {
@@ -577,7 +577,7 @@ export const translations = {
       fullName: "Full name",
       fullNamePlaceholder: "Your full name",
       phone: "Phone",
-      phonePlaceholder: "+1 (555) 123-4567",
+      phonePlaceholder: "912 345 678",
       optional: "optional",
       forgotPassword: "Forgot password?",
       signIn: "Sign in",

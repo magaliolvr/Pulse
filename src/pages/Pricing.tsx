@@ -127,13 +127,13 @@ const Pricing = () => {
                   <div className="mb-6">
                     <div className="flex items-baseline gap-1">
                       <span className="text-4xl font-display font-bold">
-                        ${isYearly ? plan.yearlyPrice : plan.monthlyPrice}
+                        €{isYearly ? plan.yearlyPrice : plan.monthlyPrice}
                       </span>
                       <span className="text-muted-foreground">{t.pricing.perMonth}</span>
                     </div>
                     {isYearly && plan.monthlyPrice > 0 && (
                       <p className="text-sm text-primary mt-1">
-                        ${(plan.yearlyPrice * 12).toFixed(2)}/ano
+                        €{(plan.yearlyPrice * 12).toFixed(2)}/ano
                       </p>
                     )}
                   </div>

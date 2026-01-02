@@ -9,6 +9,7 @@ import {
   InputOTPGroup,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
+import { PhoneInput } from "@/components/ui/phone-input";
 import { useAuth } from "@/hooks/useAuth";
 import { SocialLoginButtons } from "@/components/auth/SocialLoginButtons";
 import { useLanguage } from "@/i18n/LanguageContext";
@@ -23,7 +24,6 @@ import {
   Mail, 
   User, 
   Lock,
-  Phone,
   Zap,
   Loader2
 } from "lucide-react";
@@ -476,15 +476,11 @@ const Auth = () => {
                     <div className="space-y-4">
                       <div>
                         <Label htmlFor="phone">{t.auth.phone} ({t.auth.optional})</Label>
-                        <div className="relative mt-1">
-                          <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-                          <Input
-                            id="phone"
-                            type="tel"
-                            placeholder={t.auth.phonePlaceholder}
+                        <div className="mt-1">
+                          <PhoneInput
                             value={signupData.phone}
-                            onChange={(e) => setSignupData({ ...signupData, phone: e.target.value })}
-                            className="pl-10 h-12"
+                            onChange={(value) => setSignupData({ ...signupData, phone: value })}
+                            placeholder={t.auth.phonePlaceholder}
                           />
                         </div>
                       </div>

@@ -307,12 +307,12 @@ const Onboarding = () => {
                       </Label>
                       <div className="relative mt-2">
                         <span className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground">
-                          R$
+                          €
                         </span>
                         <Input
                           id="budget"
                           type="number"
-                          placeholder="250"
+                          placeholder="100"
                           value={data.monthlyBudget}
                           onChange={(e) =>
                             setData({ ...data, monthlyBudget: e.target.value })
@@ -415,7 +415,7 @@ const Onboarding = () => {
                     <p className="text-sm font-medium">{t.onboarding.planRecommendation.based}</p>
                     <div className="flex justify-between text-sm">
                       <span className="text-muted-foreground">{t.onboarding.steps.budget.title}</span>
-                      <span className="font-medium">R${data.monthlyBudget}</span>
+                      <span className="font-medium">€{data.monthlyBudget}</span>
                     </div>
                     <div className="flex justify-between text-sm">
                       <span className="text-muted-foreground">{t.onboarding.steps.household.title}</span>
@@ -454,7 +454,7 @@ const Onboarding = () => {
                     </div>
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">{t.onboarding.steps.budget.title}</span>
-                      <span className="font-medium">R${data.monthlyBudget}</span>
+                      <span className="font-medium">€{data.monthlyBudget}</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">{t.onboarding.steps.household.title}</span>
