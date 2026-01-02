@@ -1,73 +1,108 @@
-# Welcome to your Lovable project
+Pulse
 
-## Project info
+Pulse é uma aplicação web B2C moderna que ajuda pessoas a monitorar o consumo de energia e os gastos mensais de forma simples e visual. A ideia é fornecer insights claros e permitir que cada usuário acompanhe seus objetivos de economia e orçamento de maneira prática.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+🎯 Objetivo do projeto
 
-## How can I edit this code?
+O objetivo do Pulse é criar uma experiência completa de produto, incluindo:
 
-There are several ways of editing your application.
+Landing page com proposta de valor clara e call-to-action
 
-**Use Lovable**
+Fluxo de subscrição para planos Free e Premium
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+Onboarding interativo, que personaliza os dados do usuário
 
-Changes made via Lovable will be committed automatically to this repo.
+Dashboard pessoal, mostrando KPIs e gráficos dinâmicos
 
-**Use your preferred IDE**
+Internacionalização, com português como padrão e opção de inglês
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+O projeto foi desenvolvido no Lovable para explorar prototipagem rápida, UI/UX moderna e fluxos de produto reais.
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+🚀 Funcionalidades principais
 
-Follow these steps:
+Página inicial
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+Proposta de valor clara e visual moderno
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+Destaques, recursos e provas sociais
 
-# Step 3: Install the necessary dependencies.
-npm i
+Call-to-action principal para iniciar teste gratuito
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+Página de preços
 
-**Edit a file directly in GitHub**
+Comparação entre planos Free, Premium e Família
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+Opção de assinatura mensal ou anual
 
-**Use GitHub Codespaces**
+Valores dinâmicos exibidos com base na escolha do plano
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+Onboarding
 
-## What technologies are used for this project?
+Assistente de múltiplas etapas: metas, orçamento, perfil do domicílio, confirmação
 
-This project is built with:
+Personaliza dados simulados no dashboard
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+Dashboard
 
-## How can I deploy this project?
+Cartões de KPIs (consumo mensal, gastos estimados, economia)
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+Gráficos simples (linha/barra)
 
-## Can I connect a custom domain to my Lovable project?
+Estados de carregamento, vazio e erro
 
-Yes, you can!
+Navegação clara e responsiva
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+Internacionalização
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+Português como idioma padrão
+
+Inglês como segunda opção, alternável via seletor no navbar
+
+Preferência de idioma salva no localStorage
+
+🎨 Design e UX
+
+Interface moderna, limpa e amigável
+
+Paleta de cores consistente e acessível (verde-azulado + coral)
+
+Microanimações suaves para interações e transições
+
+Componentes reutilizáveis e design system
+
+Layout responsivo e legível em qualquer dispositivo
+
+🛠️ Ferramentas utilizadas
+
+Lovable – prototipagem rápida e desenvolvimento de interfaces funcionais
+
+AI-assisted development – para acelerar iterações e testes de design
+
+Figma – apoio visual e conceitual
+
+Design system thinking – para consistência em cores, tipografia e componentes
+
+🌍 Dados do usuário
+
+Para este protótipo, os valores do dashboard são simulados dinamicamente com base nos inputs do usuário no onboarding.
+Em um produto real, os dados poderiam vir de:
+
+Smart meters conectados via APIs seguras
+
+Portais de fornecedores de energia, permitindo importar histórico de consumo
+
+Entrada manual pelo usuário, caso não haja medidores inteligentes
+
+📌 Notas finais
+
+O Pulse é um projeto demonstrativo, criado para:
+
+Explorar fluxos de produto completos
+
+Aplicar design moderno e acessível
+
+Prototipar dashboards e fluxos de subscrição
+
+Demonstrar uso prático do Lovable e ferramentas AI-assisted
+
+O projeto mostra como é possível criar produtos digitais funcionais e visualmente polidos, mesmo em protótipos rápidos.
