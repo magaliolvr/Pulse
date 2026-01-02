@@ -16,7 +16,7 @@ Dashboard pessoal, mostrando KPIs e gráficos dinâmicos
 
 Internacionalização, com português como padrão e opção de inglês
 
-O projeto foi desenvolvido no Lovable para explorar prototipagem rápida, UI/UX moderna e fluxos de produto reais.
+O projeto foi desenvolvido para explorar prototipagem rápida, UI/UX moderna e fluxos de produto reais.
 
 🚀 Funcionalidades principais
 
@@ -74,9 +74,13 @@ Layout responsivo e legível em qualquer dispositivo
 
 🛠️ Ferramentas utilizadas
 
-Lovable – prototipagem rápida e desenvolvimento de interfaces funcionais
+React + TypeScript – desenvolvimento moderno e type-safe
 
-AI-assisted development – para acelerar iterações e testes de design
+Vite – build tool rápido e eficiente
+
+Tailwind CSS + shadcn/ui – design system e componentes
+
+Supabase – autenticação e backend
 
 Figma – apoio visual e conceitual
 
@@ -103,6 +107,6 @@ Aplicar design moderno e acessível
 
 Prototipar dashboards e fluxos de subscrição
 
-Demonstrar uso prático do Lovable e ferramentas AI-assisted
+Demonstrar práticas modernas de desenvolvimento frontend
 
 O projeto mostra como é possível criar produtos digitais funcionais e visualmente polidos, mesmo em protótipos rápidos.

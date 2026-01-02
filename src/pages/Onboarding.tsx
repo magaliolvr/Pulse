@@ -7,44 +7,25 @@ import {
   ArrowLeft, 
   ArrowRight, 
   Check, 
-  Home, 
   Target, 
   Users, 
   Wallet,
   Zap,
   Sparkles,
-  Crown
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "@/hooks/use-toast";
-
-interface OnboardingData {
-  goal: string;
-  monthlyBudget: string;
-  householdSize: string;
-}
-
-const goalIcons = [Wallet, Home, Zap, Target];
-
-// Plan recommendation logic
-const recommendPlan = (data: OnboardingData): string => {
-  const budget = parseInt(data.monthlyBudget) || 0;
-  const householdSize = parseInt(data.householdSize) || 1;
-  
-  // Family plan for larger households or high budgets
-  if (householdSize >= 3 || budget > 400) {
-    return "Family";
-  }
-  // Pro plan for medium usage
-  if (budget > 200 || householdSize >= 2) {
-    return "Pro";
-  }
-  // Free for starters
-  return "Free";
-};
+import type { OnboardingData } from "@/types/onboarding";
+import { GOAL_ICONS } from "@/constants/onboarding";
+import { calculateRecommendedPlan, parseOnboardingData } from "@/utils/onboarding";
+import { getPlanIcon, getPlanColor } from "@/utils/planUtils";
+import { DEFAULT_PLAN } from "@/constants/plans";
+import type { SubscriptionPlan } from "@/constants/plans";
+import { ROUTES } from "@/constants/routes";
+import { parseIntSafe, parseFloatSafe } from "@/utils/formatters";
 
 const Onboarding = () => {
   const navigate = useNavigate();
@@ -59,13 +40,13 @@ const Onboarding = () => {
     monthlyBudget: "",
     householdSize: "",
   });
-  const [recommendedPlan, setRecommendedPlan] = useState<string>("Free");
+  const [recommendedPlan, setRecommendedPlan] = useState<SubscriptionPlan>(DEFAULT_PLAN);
   const [loading, setLoading] = useState(false);
 
   // If already completed onboarding, redirect to dashboard
   useEffect(() => {
     if (profile?.onboarding_completed) {
-      navigate("/dashboard", { replace: true });
+      navigate(ROUTES.DASHBOARD, { replace: true });
     }
   }, [profile, navigate]);
 
@@ -93,7 +74,7 @@ const Onboarding = () => {
   const handleNext = async () => {
     if (currentStep === 3) {
       // Calculate recommended plan before showing it
-      const plan = planData?.plan || recommendPlan(data);
+      const plan = (planData?.plan as SubscriptionPlan | undefined) || calculateRecommendedPlan(data);
       setRecommendedPlan(plan);
       setCurrentStep(4);
     } else if (currentStep === 4) {
@@ -101,10 +82,11 @@ const Onboarding = () => {
     } else if (currentStep === 5) {
       // Save to database and navigate
       setLoading(true);
+      const parsedData = parseOnboardingData(data);
       const { error } = await updateProfile({
-        goal: data.goal,
-        monthly_budget: parseFloat(data.monthlyBudget),
-        household_size: parseInt(data.householdSize),
+        goal: parsedData.goal,
+        monthly_budget: parsedData.monthlyBudget,
+        household_size: parsedData.householdSize,
         recommended_plan: recommendedPlan,
         subscription_plan: recommendedPlan,
         onboarding_completed: true,
@@ -112,7 +94,7 @@ const Onboarding = () => {
 
       if (error) {
         toast({
-          title: "Erro ao salvar",
+          title: t.auth.errors.signupFailed,
           description: error.message,
           variant: "destructive",
         });
@@ -124,7 +106,7 @@ const Onboarding = () => {
         title: t.onboarding.success.title,
         description: t.onboarding.success.description,
       });
-      navigate("/dashboard");
+      navigate(ROUTES.DASHBOARD);
     } else {
       setCurrentStep(currentStep + 1);
     }
@@ -133,28 +115,6 @@ const Onboarding = () => {
   const handleBack = () => {
     if (currentStep > 1) {
       setCurrentStep(currentStep - 1);
-    }
-  };
-
-  const getPlanIcon = (plan: string) => {
-    switch (plan) {
-      case "Family":
-        return Crown;
-      case "Pro":
-        return Sparkles;
-      default:
-        return Zap;
-    }
-  };
-
-  const getPlanColor = (plan: string) => {
-    switch (plan) {
-      case "Family":
-        return "from-amber-500 to-orange-500";
-      case "Pro":
-        return "from-primary to-accent";
-      default:
-        return "from-emerald-500 to-teal-500";
     }
   };
 
@@ -255,7 +215,7 @@ const Onboarding = () => {
                   </p>
                   <div className="grid grid-cols-2 gap-4">
                     {t.onboarding.steps.goals.options.map((goal, index) => {
-                      const Icon = goalIcons[index] || Target;
+                      const Icon = GOAL_ICONS[index] || Target;
                       return (
                         <button
                           key={goal.id}
@@ -420,7 +380,7 @@ const Onboarding = () => {
                     <div className="flex justify-between text-sm">
                       <span className="text-muted-foreground">{t.onboarding.steps.household.title}</span>
                       <span className="font-medium">
-                        {t.onboarding.steps.household.options[parseInt(data.householdSize) - 1] || data.householdSize}
+                        {t.onboarding.steps.household.options[parseIntSafe(data.householdSize, 1) - 1] || data.householdSize}
                       </span>
                     </div>
                   </div>
@@ -428,7 +388,7 @@ const Onboarding = () => {
                   <Button
                     variant="ghost"
                     size="sm"
-                    onClick={() => navigate("/pricing")}
+                    onClick={() => navigate(ROUTES.PRICING)}
                   >
                     {t.onboarding.planRecommendation.viewAllPlans}
                   </Button>
@@ -459,7 +419,7 @@ const Onboarding = () => {
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">{t.onboarding.steps.household.title}</span>
                       <span className="font-medium">
-                        {t.onboarding.steps.household.options[parseInt(data.householdSize) - 1] || data.householdSize}
+                        {t.onboarding.steps.household.options[parseIntSafe(data.householdSize, 1) - 1] || data.householdSize}
                       </span>
                     </div>
                   </div>

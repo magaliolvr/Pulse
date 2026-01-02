@@ -34,6 +34,9 @@ import { FinancesScreen } from "@/components/dashboard/FinancesScreen";
 import { ImpactScreen } from "@/components/dashboard/ImpactScreen";
 import { AlertsScreen } from "@/components/dashboard/AlertsScreen";
 import { SettingsScreen } from "@/components/dashboard/SettingsScreen";
+import { getInitials } from "@/utils/formatters";
+import { DEFAULT_PLAN } from "@/constants/plans";
+import { ROUTES } from "@/constants/routes";
 
 type DashboardScreen = "overview" | "analytics" | "finances" | "impact" | "alerts" | "settings";
 
@@ -42,7 +45,7 @@ const Dashboard = () => {
   const { t } = useLanguage();
   const { profile, signOut } = useAuth();
   
-  const plan = profile?.subscription_plan || "Free";
+  const plan = profile?.subscription_plan || DEFAULT_PLAN;
   const [activeScreen, setActiveScreen] = useState<DashboardScreen>("overview");
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [error, setError] = useState(false);
@@ -54,16 +57,7 @@ const Dashboard = () => {
 
   const handleSignOut = async () => {
     await signOut();
-    navigate("/");
-  };
-
-  const getInitials = (name: string) => {
-    return name
-      .split(" ")
-      .map((n) => n[0])
-      .join("")
-      .toUpperCase()
-      .slice(0, 2);
+    navigate(ROUTES.HOME);
   };
 
   const menuItems: { id: DashboardScreen; icon: typeof Home; label: string }[] = [
@@ -210,7 +204,7 @@ const Dashboard = () => {
                   </div>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem asChild>
-                    <Link to="/" className="cursor-pointer">
+                    <Link to={ROUTES.HOME} className="cursor-pointer">
                       <Home className="w-4 h-4 mr-2" />
                       {t.nav.home}
                     </Link>

@@ -128,7 +128,7 @@ export const AlertsScreen = () => {
         <div>
           <h2 className="text-2xl font-display font-bold">{t.dashboard.menu.alerts}</h2>
           <p className="text-muted-foreground">
-            {unreadCount > 0 ? `${unreadCount} alertas por ler` : "Nenhum alerta novo"}
+            {unreadCount > 0 ? `${unreadCount} ${t.dashboard.alerts.unreadAlerts}` : t.dashboard.alerts.noNewAlerts}
           </p>
         </div>
         <div className="flex gap-2">
