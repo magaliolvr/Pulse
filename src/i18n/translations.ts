@@ -1,0 +1,485 @@
+export const translations = {
+  pt: {
+    // Navbar
+    nav: {
+      home: "Início",
+      pricing: "Preços",
+      dashboard: "Painel",
+      signIn: "Entrar",
+      startFreeTrial: "Começar grátis",
+    },
+    // Hero
+    hero: {
+      badge: "Economize até 30% na sua conta de energia",
+      title: "Controle inteligente do seu",
+      titleHighlight: "consumo de energia",
+      description: "O Pulse ajuda você a monitorar, analisar e otimizar o uso de energia da sua casa. Economize dinheiro enquanto reduz seu impacto ambiental.",
+      cta: "Comece seu teste grátis",
+      secondaryCta: "Ver planos",
+      noCreditCard: "Sem cartão de crédito • Teste grátis de 14 dias",
+      stats: {
+        users: "10k+ usuários",
+        rating: "4.9/5 avaliação",
+        savings: "Economia de $2M+",
+      },
+    },
+    // Features
+    features: {
+      badge: "Funcionalidades",
+      title: "Tudo que você precisa para economizar energia",
+      description: "Ferramentas poderosas para ajudar você a entender e reduzir seu consumo de energia.",
+      items: [
+        {
+          title: "Monitoramento em Tempo Real",
+          description: "Acompanhe seu uso de energia em tempo real com atualizações ao vivo e insights detalhados.",
+        },
+        {
+          title: "Orçamento Inteligente",
+          description: "Defina metas de orçamento de energia e receba alertas antes de ultrapassar seus limites.",
+        },
+        {
+          title: "Análise de Consumo",
+          description: "Entenda seus padrões de uso com análises detalhadas e recomendações personalizadas.",
+        },
+        {
+          title: "Insights Familiares",
+          description: "Compare o uso de energia de todos na casa e identifique oportunidades de economia.",
+        },
+        {
+          title: "Comparação de Tarifas",
+          description: "Encontre os melhores planos de energia para seu padrão de consumo.",
+        },
+        {
+          title: "Impacto Ambiental",
+          description: "Veja como suas economias de energia contribuem para um planeta mais sustentável.",
+        },
+      ],
+    },
+    // Social Proof
+    socialProof: {
+      badge: "Depoimentos",
+      title: "Amado por milhares de usuários",
+      description: "Veja o que nossa comunidade diz sobre a experiência com o Pulse.",
+      testimonials: [
+        {
+          name: "Maria S.",
+          role: "Proprietária",
+          content: "O Pulse me ajudou a reduzir minha conta de energia em 30% em apenas 3 meses. Os insights são incrivelmente práticos.",
+        },
+        {
+          name: "João K.",
+          role: "Inquilino",
+          content: "Finalmente um app que torna o rastreamento de energia simples. Adoro a função de alertas de orçamento!",
+        },
+        {
+          name: "Ana R.",
+          role: "Família de 4",
+          content: "Economizamos mais de R$2.500 este ano usando o Pulse. As crianças até gostam de checar nossas estatísticas diárias!",
+        },
+      ],
+    },
+    // CTA
+    cta: {
+      title: "Pronto para começar a economizar?",
+      description: "Junte-se a milhares de usuários que já estão reduzindo seus custos de energia e impacto ambiental com o Pulse.",
+      primaryCta: "Comece seu teste grátis",
+      secondaryCta: "Comparar planos",
+      noCreditCard: "Sem cartão de crédito • Teste grátis de 14 dias",
+    },
+    // Footer
+    footer: {
+      description: "Monitoramento inteligente de energia para casas modernas. Economize dinheiro enquanto salva o planeta.",
+      product: "Produto",
+      features: "Funcionalidades",
+      pricing: "Preços",
+      dashboard: "Painel",
+      company: "Empresa",
+      about: "Sobre",
+      blog: "Blog",
+      careers: "Carreiras",
+      support: "Suporte",
+      helpCenter: "Central de Ajuda",
+      contact: "Contato",
+      privacy: "Privacidade",
+      copyright: "© 2024 Pulse. Todos os direitos reservados.",
+    },
+    // Pricing
+    pricing: {
+      badge: "Preços",
+      title: "Escolha o plano certo para você",
+      description: "Comece grátis e faça upgrade quando precisar. Todos os planos incluem um teste grátis de 14 dias.",
+      monthly: "Mensal",
+      yearly: "Anual",
+      popular: "Popular",
+      perMonth: "/mês",
+      startTrial: "Começar teste grátis",
+      getStarted: "Começar agora",
+      contactSales: "Falar com vendas",
+      savePercent: "Economize 20%",
+      plans: {
+        free: {
+          name: "Grátis",
+          description: "Perfeito para começar",
+          features: [
+            "Monitoramento básico de energia",
+            "Relatórios semanais",
+            "1 dispositivo conectado",
+            "Histórico de 30 dias",
+          ],
+        },
+        pro: {
+          name: "Pro",
+          description: "Para usuários comprometidos",
+          features: [
+            "Tudo do Grátis",
+            "Monitoramento em tempo real",
+            "Dispositivos ilimitados",
+            "Alertas de orçamento",
+            "Relatórios avançados",
+            "Suporte prioritário",
+          ],
+        },
+        family: {
+          name: "Família",
+          description: "Para toda a casa",
+          features: [
+            "Tudo do Pro",
+            "Até 6 membros",
+            "Insights familiares",
+            "Comparação de tarifas",
+            "Gerente de conta dedicado",
+            "Acesso à API",
+          ],
+        },
+      },
+    },
+    // Onboarding
+    onboarding: {
+      step: "Etapa",
+      of: "de",
+      next: "Próximo",
+      previous: "Anterior",
+      finish: "Concluir Configuração",
+      steps: {
+        goals: {
+          title: "Quais são seus objetivos?",
+          description: "Selecione o que você deseja alcançar com o Pulse.",
+          options: [
+            { id: "save-money", label: "Economizar dinheiro", description: "Reduzir contas de energia mensais" },
+            { id: "track-usage", label: "Acompanhar uso", description: "Monitorar consumo de energia" },
+            { id: "go-green", label: "Ser sustentável", description: "Reduzir pegada de carbono" },
+            { id: "budget", label: "Gerenciar orçamento", description: "Manter gastos sob controle" },
+          ],
+        },
+        budget: {
+          title: "Qual é seu orçamento mensal de energia?",
+          description: "Isso nos ajuda a definir metas e alertas realistas.",
+          placeholder: "Ex: R$ 250",
+          hint: "Você pode ajustar isso depois nas configurações.",
+        },
+        household: {
+          title: "Quantas pessoas moram na sua casa?",
+          description: "Isso nos ajuda a fornecer melhores comparações e insights.",
+          options: ["1 pessoa", "2 pessoas", "3-4 pessoas", "5+ pessoas"],
+        },
+      },
+      success: {
+        title: "Tudo pronto!",
+        description: "Seu painel está pronto. Vamos começar a economizar energia!",
+        cta: "Ir para o Painel",
+      },
+    },
+    // Dashboard
+    dashboard: {
+      title: "Painel",
+      welcome: "Bem-vindo de volta! Aqui está sua visão geral de energia.",
+      menu: {
+        overview: "Visão Geral",
+        analytics: "Análises",
+        devices: "Dispositivos",
+        alerts: "Alertas",
+        settings: "Configurações",
+      },
+      kpi: {
+        consumption: {
+          title: "Consumo Mensal",
+          unit: "kWh",
+          change: "vs. mês passado",
+        },
+        cost: {
+          title: "Custo Estimado",
+          change: "vs. mês passado",
+        },
+        savings: {
+          title: "Economia",
+          change: "da sua meta",
+        },
+        budget: {
+          title: "Status do Orçamento",
+          status: {
+            onTrack: "No caminho certo",
+            overBudget: "Acima do orçamento",
+          },
+        },
+      },
+      charts: {
+        daily: "Uso Diário",
+        monthly: "Tendência Mensal",
+      },
+      loading: "Carregando dados...",
+      error: {
+        title: "Erro ao carregar dados",
+        description: "Não foi possível buscar seus dados de energia. Tente novamente.",
+        retry: "Tentar novamente",
+      },
+      empty: {
+        title: "Nenhum dado ainda",
+        description: "Comece a rastrear seu uso de energia para ver insights aqui.",
+        cta: "Adicionar primeiro dispositivo",
+      },
+    },
+  },
+  en: {
+    // Navbar
+    nav: {
+      home: "Home",
+      pricing: "Pricing",
+      dashboard: "Dashboard",
+      signIn: "Sign in",
+      startFreeTrial: "Start free trial",
+    },
+    // Hero
+    hero: {
+      badge: "Save up to 30% on your energy bill",
+      title: "Smart control of your",
+      titleHighlight: "energy consumption",
+      description: "Pulse helps you monitor, analyze, and optimize your home energy usage. Save money while reducing your environmental impact.",
+      cta: "Start your free trial",
+      secondaryCta: "View plans",
+      noCreditCard: "No credit card required • 14-day free trial",
+      stats: {
+        users: "10k+ users",
+        rating: "4.9/5 rating",
+        savings: "$2M+ saved",
+      },
+    },
+    // Features
+    features: {
+      badge: "Features",
+      title: "Everything you need to save energy",
+      description: "Powerful tools to help you understand and reduce your energy consumption.",
+      items: [
+        {
+          title: "Real-Time Monitoring",
+          description: "Track your energy usage in real-time with live updates and detailed insights.",
+        },
+        {
+          title: "Smart Budgeting",
+          description: "Set energy budget goals and receive alerts before you exceed your limits.",
+        },
+        {
+          title: "Usage Analytics",
+          description: "Understand your usage patterns with detailed analytics and personalized recommendations.",
+        },
+        {
+          title: "Family Insights",
+          description: "Compare energy usage across your household and identify saving opportunities.",
+        },
+        {
+          title: "Rate Comparison",
+          description: "Find the best energy plans for your consumption pattern.",
+        },
+        {
+          title: "Environmental Impact",
+          description: "See how your energy savings contribute to a more sustainable planet.",
+        },
+      ],
+    },
+    // Social Proof
+    socialProof: {
+      badge: "Testimonials",
+      title: "Loved by thousands of users",
+      description: "See what our community has to say about their experience with Pulse.",
+      testimonials: [
+        {
+          name: "Sarah M.",
+          role: "Homeowner",
+          content: "Pulse helped me reduce my energy bill by 30% in just 3 months. The insights are incredibly actionable.",
+        },
+        {
+          name: "James K.",
+          role: "Apartment Renter",
+          content: "Finally an app that makes energy tracking simple. I love the budget alerts feature!",
+        },
+        {
+          name: "Emily R.",
+          role: "Family of 4",
+          content: "We've saved over $500 this year using Pulse. The kids even enjoy checking our daily stats!",
+        },
+      ],
+    },
+    // CTA
+    cta: {
+      title: "Ready to start saving?",
+      description: "Join thousands of users who are already reducing their energy costs and environmental impact with Pulse.",
+      primaryCta: "Start your free trial",
+      secondaryCta: "Compare plans",
+      noCreditCard: "No credit card required • 14-day free trial",
+    },
+    // Footer
+    footer: {
+      description: "Smart energy monitoring for modern homes. Save money while saving the planet.",
+      product: "Product",
+      features: "Features",
+      pricing: "Pricing",
+      dashboard: "Dashboard",
+      company: "Company",
+      about: "About",
+      blog: "Blog",
+      careers: "Careers",
+      support: "Support",
+      helpCenter: "Help Center",
+      contact: "Contact",
+      privacy: "Privacy",
+      copyright: "© 2024 Pulse. All rights reserved.",
+    },
+    // Pricing
+    pricing: {
+      badge: "Pricing",
+      title: "Choose the right plan for you",
+      description: "Start free and upgrade when you need to. All plans include a 14-day free trial.",
+      monthly: "Monthly",
+      yearly: "Yearly",
+      popular: "Popular",
+      perMonth: "/month",
+      startTrial: "Start free trial",
+      getStarted: "Get started",
+      contactSales: "Contact sales",
+      savePercent: "Save 20%",
+      plans: {
+        free: {
+          name: "Free",
+          description: "Perfect for getting started",
+          features: [
+            "Basic energy monitoring",
+            "Weekly reports",
+            "1 connected device",
+            "30-day history",
+          ],
+        },
+        pro: {
+          name: "Pro",
+          description: "For committed users",
+          features: [
+            "Everything in Free",
+            "Real-time monitoring",
+            "Unlimited devices",
+            "Budget alerts",
+            "Advanced reports",
+            "Priority support",
+          ],
+        },
+        family: {
+          name: "Family",
+          description: "For the whole house",
+          features: [
+            "Everything in Pro",
+            "Up to 6 members",
+            "Family insights",
+            "Rate comparison",
+            "Dedicated account manager",
+            "API access",
+          ],
+        },
+      },
+    },
+    // Onboarding
+    onboarding: {
+      step: "Step",
+      of: "of",
+      next: "Next",
+      previous: "Previous",
+      finish: "Complete Setup",
+      steps: {
+        goals: {
+          title: "What are your goals?",
+          description: "Select what you want to achieve with Pulse.",
+          options: [
+            { id: "save-money", label: "Save money", description: "Reduce monthly energy bills" },
+            { id: "track-usage", label: "Track usage", description: "Monitor energy consumption" },
+            { id: "go-green", label: "Go green", description: "Reduce carbon footprint" },
+            { id: "budget", label: "Manage budget", description: "Keep spending under control" },
+          ],
+        },
+        budget: {
+          title: "What's your monthly energy budget?",
+          description: "This helps us set realistic goals and alerts.",
+          placeholder: "e.g. $150",
+          hint: "You can adjust this later in settings.",
+        },
+        household: {
+          title: "How many people live in your home?",
+          description: "This helps us provide better comparisons and insights.",
+          options: ["1 person", "2 people", "3-4 people", "5+ people"],
+        },
+      },
+      success: {
+        title: "You're all set!",
+        description: "Your dashboard is ready. Let's start saving energy!",
+        cta: "Go to Dashboard",
+      },
+    },
+    // Dashboard
+    dashboard: {
+      title: "Dashboard",
+      welcome: "Welcome back! Here's your energy overview.",
+      menu: {
+        overview: "Overview",
+        analytics: "Analytics",
+        devices: "Devices",
+        alerts: "Alerts",
+        settings: "Settings",
+      },
+      kpi: {
+        consumption: {
+          title: "Monthly Consumption",
+          unit: "kWh",
+          change: "vs. last month",
+        },
+        cost: {
+          title: "Estimated Cost",
+          change: "vs. last month",
+        },
+        savings: {
+          title: "Savings",
+          change: "of your goal",
+        },
+        budget: {
+          title: "Budget Status",
+          status: {
+            onTrack: "On track",
+            overBudget: "Over budget",
+          },
+        },
+      },
+      charts: {
+        daily: "Daily Usage",
+        monthly: "Monthly Trend",
+      },
+      loading: "Loading data...",
+      error: {
+        title: "Error loading data",
+        description: "Unable to fetch your energy data. Please try again.",
+        retry: "Try again",
+      },
+      empty: {
+        title: "No data yet",
+        description: "Start tracking your energy usage to see insights here.",
+        cta: "Add first device",
+      },
+    },
+  },
+} as const;
+
+export type Language = keyof typeof translations;
+export type Translations = (typeof translations)[Language];

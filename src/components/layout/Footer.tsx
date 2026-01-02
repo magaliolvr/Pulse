@@ -1,7 +1,10 @@
 import { Link } from "react-router-dom";
 import { Zap } from "lucide-react";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 export function Footer() {
+  const { t } = useLanguage();
+
   return (
     <footer className="border-t border-border bg-secondary/30 py-12">
       <div className="container mx-auto px-4">
@@ -15,17 +18,16 @@ export function Footer() {
 
           <div className="flex items-center gap-8">
             <Link to="/pricing" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-              Pricing
+              {t.footer.pricing}
             </Link>
             <Link to="/dashboard" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-              Dashboard
+              {t.footer.dashboard}
             </Link>
-            <span className="text-sm text-muted-foreground">Privacy</span>
-            <span className="text-sm text-muted-foreground">Terms</span>
+            <span className="text-sm text-muted-foreground">{t.footer.privacy}</span>
           </div>
 
           <div className="text-sm text-muted-foreground">
-            © 2025 Pulse. All rights reserved.
+            {t.footer.copyright}
           </div>
         </div>
       </div>

@@ -3,16 +3,19 @@ import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X, Zap } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-
-const navLinks = [
-  { href: "/", label: "Home" },
-  { href: "/pricing", label: "Pricing" },
-  { href: "/dashboard", label: "Dashboard" },
-];
+import { useLanguage } from "@/i18n/LanguageContext";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+  const { t } = useLanguage();
+
+  const navLinks = [
+    { href: "/", label: t.nav.home },
+    { href: "/pricing", label: t.nav.pricing },
+    { href: "/dashboard", label: t.nav.dashboard },
+  ];
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 glass">
@@ -43,11 +46,12 @@ export function Navbar() {
 
           {/* Desktop CTA */}
           <div className="hidden md:flex items-center gap-3">
+            <LanguageSwitcher />
             <Button variant="ghost" size="sm" asChild>
-              <Link to="/onboarding">Sign in</Link>
+              <Link to="/onboarding">{t.nav.signIn}</Link>
             </Button>
             <Button variant="hero" size="sm" asChild>
-              <Link to="/onboarding">Start free trial</Link>
+              <Link to="/onboarding">{t.nav.startFreeTrial}</Link>
             </Button>
           </div>
 
@@ -84,11 +88,14 @@ export function Navbar() {
                 </Link>
               ))}
               <div className="pt-3 border-t border-border space-y-2">
+                <div className="flex justify-center">
+                  <LanguageSwitcher />
+                </div>
                 <Button variant="outline" className="w-full" asChild>
-                  <Link to="/onboarding">Sign in</Link>
+                  <Link to="/onboarding">{t.nav.signIn}</Link>
                 </Button>
                 <Button variant="hero" className="w-full" asChild>
-                  <Link to="/onboarding">Start free trial</Link>
+                  <Link to="/onboarding">{t.nav.startFreeTrial}</Link>
                 </Button>
               </div>
             </div>
