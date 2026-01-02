@@ -2,8 +2,11 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles, TrendingDown, Zap } from "lucide-react";
 import { motion } from "framer-motion";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 export function Hero() {
+  const { t } = useLanguage();
+
   return (
     <section className="relative pt-32 pb-20 overflow-hidden">
       {/* Background gradient */}
@@ -21,7 +24,7 @@ export function Hero() {
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-sm font-medium mb-8"
           >
             <Sparkles className="w-4 h-4" />
-            Track your energy consumption effortlessly
+            {t.hero.badge}
           </motion.div>
 
           {/* Heading */}
@@ -31,8 +34,8 @@ export function Hero() {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="text-4xl md:text-6xl lg:text-7xl font-display font-bold mb-6 leading-tight"
           >
-            Take control of your{" "}
-            <span className="gradient-text">energy costs</span>
+            {t.hero.title}{" "}
+            <span className="gradient-text">{t.hero.titleHighlight}</span>
           </motion.h1>
 
           {/* Subheading */}
@@ -42,8 +45,7 @@ export function Hero() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-lg md:text-xl text-foreground/70 max-w-2xl mx-auto mb-10"
           >
-            Pulse helps you monitor, analyze, and optimize your household energy 
-            consumption. Save money while reducing your environmental footprint.
+            {t.hero.description}
           </motion.p>
 
           {/* CTAs */}
@@ -55,12 +57,12 @@ export function Hero() {
           >
             <Button variant="hero" size="xl" asChild>
               <Link to="/onboarding">
-                Start free trial
+                {t.hero.cta}
                 <ArrowRight className="w-5 h-5" />
               </Link>
             </Button>
             <Button variant="outline" size="lg" asChild>
-              <Link to="/pricing">View pricing</Link>
+              <Link to="/pricing">{t.hero.secondaryCta}</Link>
             </Button>
           </motion.div>
 
@@ -72,9 +74,9 @@ export function Hero() {
             className="grid grid-cols-3 gap-8 max-w-lg mx-auto mt-16"
           >
             {[
-              { icon: TrendingDown, value: "23%", label: "Avg. savings" },
-              { icon: Zap, value: "50K+", label: "Active users" },
-              { icon: Sparkles, value: "4.9★", label: "User rating" },
+              { icon: TrendingDown, value: "23%", label: t.hero.stats.savings },
+              { icon: Zap, value: "50K+", label: t.hero.stats.users },
+              { icon: Sparkles, value: "4.9★", label: t.hero.stats.rating },
             ].map((stat, index) => (
               <div key={index} className="text-center">
                 <div className="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-primary/10 mb-3">

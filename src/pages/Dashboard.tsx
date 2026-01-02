@@ -32,11 +32,13 @@ import {
   BarChart,
   Bar,
 } from "recharts";
+import { useLanguage } from "@/i18n/LanguageContext";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 
 // Mock data generation
 const generateDailyData = () => {
   return Array.from({ length: 7 }, (_, i) => ({
-    day: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"][i],
+    day: ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"][i],
     consumption: Math.floor(Math.random() * 30) + 20,
     cost: Math.floor(Math.random() * 15) + 5,
   }));
@@ -44,7 +46,7 @@ const generateDailyData = () => {
 
 const generateMonthlyData = () => {
   return Array.from({ length: 12 }, (_, i) => ({
-    month: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][i],
+    month: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"][i],
     consumption: Math.floor(Math.random() * 200) + 100,
     cost: Math.floor(Math.random() * 100) + 50,
   }));
@@ -54,12 +56,13 @@ interface KPICardProps {
   title: string;
   value: string;
   change: number;
+  changeLabel: string;
   icon: React.ElementType;
   trend: "up" | "down";
   loading?: boolean;
 }
 
-const KPICard = ({ title, value, change, icon: Icon, trend, loading }: KPICardProps) => {
+const KPICard = ({ title, value, change, changeLabel, icon: Icon, trend, loading }: KPICardProps) => {
   const isPositive = trend === "down"; // For energy, down is good
   
   if (loading) {
@@ -96,7 +99,7 @@ const KPICard = ({ title, value, change, icon: Icon, trend, loading }: KPICardPr
         <span className={isPositive ? "text-success" : "text-accent"}>
           {Math.abs(change)}%
         </span>
-        <span className="text-muted-foreground">vs last month</span>
+        <span className="text-muted-foreground">{changeLabel}</span>
       </div>
     </motion.div>
   );
@@ -107,6 +110,7 @@ const Dashboard = () => {
   const userData = location.state as { plan?: string; monthlyBudget?: string } | null;
   const plan = userData?.plan || "Free";
   const budget = parseInt(userData?.monthlyBudget || "150");
+  const { t } = useLanguage();
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -141,6 +145,15 @@ const Dashboard = () => {
     }, 1500);
   };
 
+  const menuItems = [
+    { icon: Home, label: t.dashboard.menu.overview, active: true },
+    { icon: LineChart, label: t.dashboard.menu.analytics },
+    { icon: Wallet, label: t.dashboard.kpi.cost.title },
+    { icon: Leaf, label: t.features.items[5]?.title || "Impacto" },
+    { icon: Bell, label: t.dashboard.menu.alerts },
+    { icon: Settings, label: t.dashboard.menu.settings },
+  ];
+
   if (error) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
@@ -148,13 +161,13 @@ const Dashboard = () => {
           <div className="w-16 h-16 rounded-full bg-destructive/10 flex items-center justify-center mx-auto mb-4">
             <AlertCircle className="w-8 h-8 text-destructive" />
           </div>
-          <h2 className="text-xl font-display font-bold mb-2">Unable to load data</h2>
+          <h2 className="text-xl font-display font-bold mb-2">{t.dashboard.error.title}</h2>
           <p className="text-muted-foreground mb-6">
-            There was a problem loading your dashboard. Please try again.
+            {t.dashboard.error.description}
           </p>
           <Button variant="hero" onClick={handleRetry}>
             <RefreshCw className="w-4 h-4 mr-2" />
-            Retry
+            {t.dashboard.error.retry}
           </Button>
         </div>
       </div>
@@ -185,14 +198,7 @@ const Dashboard = () => {
         </div>
 
         <nav className="flex-1 p-4 space-y-2">
-          {[
-            { icon: Home, label: "Dashboard", active: true },
-            { icon: LineChart, label: "Analytics" },
-            { icon: Wallet, label: "Budget" },
-            { icon: Leaf, label: "Eco Impact" },
-            { icon: Bell, label: "Alerts" },
-            { icon: Settings, label: "Settings" },
-          ].map((item) => (
+          {menuItems.map((item) => (
             <button
               key={item.label}
               className={cn(
@@ -214,7 +220,6 @@ const Dashboard = () => {
             className="w-full flex items-center justify-center gap-2 px-3 py-2 rounded-xl text-muted-foreground hover:bg-secondary hover:text-foreground transition-all"
           >
             <Menu className="w-5 h-5" />
-            {sidebarOpen && <span className="text-sm">Collapse</span>}
           </button>
         </div>
       </motion.aside>
@@ -228,21 +233,22 @@ const Dashboard = () => {
         <header className="sticky top-0 z-30 bg-background/80 backdrop-blur-xl border-b border-border px-8 py-4">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-2xl font-display font-bold">Dashboard</h1>
+              <h1 className="text-2xl font-display font-bold">{t.dashboard.title}</h1>
               <p className="text-muted-foreground text-sm">
-                Welcome back! Here's your energy overview.
+                {t.dashboard.welcome}
               </p>
             </div>
             <div className="flex items-center gap-4">
+              <LanguageSwitcher />
               <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-primary/10">
-                <span className="text-sm font-medium text-primary">{plan} Plan</span>
+                <span className="text-sm font-medium text-primary">{plan}</span>
                 {plan !== "Free" && (
                   <ChevronDown className="w-4 h-4 text-primary" />
                 )}
               </div>
               <Link to="/">
                 <Button variant="outline" size="sm">
-                  Back to Home
+                  {t.nav.home}
                 </Button>
               </Link>
             </div>
@@ -254,33 +260,37 @@ const Dashboard = () => {
           {/* KPI Cards */}
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             <KPICard
-              title="This Month's Usage"
-              value={`${consumption} kWh`}
+              title={t.dashboard.kpi.consumption.title}
+              value={`${consumption} ${t.dashboard.kpi.consumption.unit}`}
               change={12}
+              changeLabel={t.dashboard.kpi.consumption.change}
               icon={Zap}
               trend="down"
               loading={loading}
             />
             <KPICard
-              title="Current Spend"
-              value={`$${currentSpend}`}
+              title={t.dashboard.kpi.cost.title}
+              value={`R$${currentSpend}`}
               change={8}
+              changeLabel={t.dashboard.kpi.cost.change}
               icon={Wallet}
               trend="down"
               loading={loading}
             />
             <KPICard
-              title="Projected Savings"
-              value={`$${projectedSavings}`}
+              title={t.dashboard.kpi.savings.title}
+              value={`R$${projectedSavings}`}
               change={15}
+              changeLabel={t.dashboard.kpi.savings.change}
               icon={TrendingDown}
               trend="down"
               loading={loading}
             />
             <KPICard
-              title="Budget Remaining"
-              value={`$${budget - currentSpend}`}
+              title={t.dashboard.kpi.budget.title}
+              value={`R$${budget - currentSpend}`}
               change={5}
+              changeLabel={t.dashboard.kpi.budget.status.onTrack}
               icon={BarChart3}
               trend="up"
               loading={loading}
@@ -298,12 +308,12 @@ const Dashboard = () => {
             >
               <div className="flex items-center justify-between mb-6">
                 <div>
-                  <h3 className="font-display font-semibold text-lg">Daily Consumption</h3>
-                  <p className="text-muted-foreground text-sm">This week's usage pattern</p>
+                  <h3 className="font-display font-semibold text-lg">{t.dashboard.charts.daily}</h3>
+                  <p className="text-muted-foreground text-sm">{t.dashboard.kpi.consumption.change}</p>
                 </div>
                 <div className="flex items-center gap-2 text-sm text-success">
                   <TrendingDown className="w-4 h-4" />
-                  <span>-8% vs last week</span>
+                  <span>-8%</span>
                 </div>
               </div>
               {loading ? (
@@ -338,12 +348,12 @@ const Dashboard = () => {
             >
               <div className="flex items-center justify-between mb-6">
                 <div>
-                  <h3 className="font-display font-semibold text-lg">Monthly Trend</h3>
-                  <p className="text-muted-foreground text-sm">Cost over the past year</p>
+                  <h3 className="font-display font-semibold text-lg">{t.dashboard.charts.monthly}</h3>
+                  <p className="text-muted-foreground text-sm">{t.dashboard.kpi.cost.change}</p>
                 </div>
                 <div className="flex items-center gap-2 text-sm text-success">
                   <TrendingDown className="w-4 h-4" />
-                  <span>-15% YoY</span>
+                  <span>-15%</span>
                 </div>
               </div>
               {loading ? (
@@ -390,18 +400,17 @@ const Dashboard = () => {
               </div>
               <div className="flex-1">
                 <h3 className="font-display font-semibold text-lg mb-1">
-                  💡 Energy Saving Tip
+                  💡 {t.features.items[2]?.title || "Dica de Economia"}
                 </h3>
                 <p className="text-muted-foreground mb-4">
-                  Based on your usage patterns, switching to LED bulbs in your living room 
-                  could save you approximately <strong className="text-foreground">$12/month</strong>.
+                  {t.features.items[2]?.description || "Acompanhe seu consumo para economizar."}
                 </p>
                 <div className="flex gap-3">
                   <Button variant="hero" size="sm">
-                    Learn More
+                    {t.onboarding.next}
                   </Button>
                   <Button variant="ghost" size="sm">
-                    Dismiss
+                    {t.onboarding.previous}
                   </Button>
                 </div>
               </div>

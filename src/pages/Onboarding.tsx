@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 interface OnboardingData {
   goal: string;
@@ -22,30 +23,12 @@ interface OnboardingData {
   householdSize: string;
 }
 
-const steps = [
-  { id: 1, title: "Your Goal", icon: Target },
-  { id: 2, title: "Budget", icon: Wallet },
-  { id: 3, title: "Household", icon: Users },
-  { id: 4, title: "Complete", icon: Check },
-];
-
-const goals = [
-  { id: "save-money", label: "Save money on bills", icon: Wallet },
-  { id: "reduce-carbon", label: "Reduce carbon footprint", icon: Home },
-  { id: "track-usage", label: "Track energy usage", icon: Zap },
-  { id: "all-above", label: "All of the above", icon: Target },
-];
-
-const householdSizes = [
-  { value: "1", label: "1 person" },
-  { value: "2", label: "2 people" },
-  { value: "3-4", label: "3-4 people" },
-  { value: "5+", label: "5+ people" },
-];
+const goalIcons = [Wallet, Home, Zap, Target];
 
 const Onboarding = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { t } = useLanguage();
   const planData = location.state as { plan?: string; isYearly?: boolean } | null;
 
   const [currentStep, setCurrentStep] = useState(1);
@@ -54,6 +37,13 @@ const Onboarding = () => {
     monthlyBudget: "",
     householdSize: "",
   });
+
+  const steps = [
+    { id: 1, title: t.onboarding.steps.goals.title, icon: Target },
+    { id: 2, title: t.onboarding.steps.budget.title, icon: Wallet },
+    { id: 3, title: t.onboarding.steps.household.title, icon: Users },
+    { id: 4, title: t.onboarding.success.title, icon: Check },
+  ];
 
   const canProceed = () => {
     switch (currentStep) {
@@ -129,9 +119,8 @@ const Onboarding = () => {
                     currentStep === step.id ? "text-foreground" : "text-muted-foreground"
                   )}
                 >
-                  Step {step.id}
+                  {t.onboarding.step} {step.id}
                 </p>
-                <p className="text-xs text-muted-foreground">{step.title}</p>
               </div>
             </div>
           ))}
@@ -139,10 +128,10 @@ const Onboarding = () => {
 
         {planData?.plan && (
           <div className="p-4 rounded-xl bg-primary/10 border border-primary/20">
-            <p className="text-xs text-muted-foreground mb-1">Selected Plan</p>
+            <p className="text-xs text-muted-foreground mb-1">{t.pricing.badge}</p>
             <p className="font-semibold text-primary">{planData.plan}</p>
             {planData.isYearly && (
-              <p className="text-xs text-muted-foreground">Billed yearly</p>
+              <p className="text-xs text-muted-foreground">{t.pricing.yearly}</p>
             )}
           </div>
         )}
@@ -176,41 +165,45 @@ const Onboarding = () => {
               {currentStep === 1 && (
                 <div>
                   <h1 className="text-3xl font-display font-bold mb-2">
-                    What's your main goal?
+                    {t.onboarding.steps.goals.title}
                   </h1>
                   <p className="text-muted-foreground mb-8">
-                    Help us personalize your Pulse experience.
+                    {t.onboarding.steps.goals.description}
                   </p>
                   <div className="grid grid-cols-2 gap-4">
-                    {goals.map((goal) => (
-                      <button
-                        key={goal.id}
-                        onClick={() => setData({ ...data, goal: goal.id })}
-                        className={cn(
-                          "p-6 rounded-2xl border-2 text-left transition-all hover:border-primary/50",
-                          data.goal === goal.id
-                            ? "border-primary bg-primary/5 shadow-glow"
-                            : "border-border bg-card"
-                        )}
-                      >
-                        <div
+                    {t.onboarding.steps.goals.options.map((goal, index) => {
+                      const Icon = goalIcons[index] || Target;
+                      return (
+                        <button
+                          key={goal.id}
+                          onClick={() => setData({ ...data, goal: goal.id })}
                           className={cn(
-                            "w-12 h-12 rounded-xl flex items-center justify-center mb-4",
-                            data.goal === goal.id ? "gradient-hero" : "bg-secondary"
+                            "p-6 rounded-2xl border-2 text-left transition-all hover:border-primary/50",
+                            data.goal === goal.id
+                              ? "border-primary bg-primary/5 shadow-glow"
+                              : "border-border bg-card"
                           )}
                         >
-                          <goal.icon
+                          <div
                             className={cn(
-                              "w-6 h-6",
-                              data.goal === goal.id
-                                ? "text-primary-foreground"
-                                : "text-muted-foreground"
+                              "w-12 h-12 rounded-xl flex items-center justify-center mb-4",
+                              data.goal === goal.id ? "gradient-hero" : "bg-secondary"
                             )}
-                          />
-                        </div>
-                        <p className="font-medium">{goal.label}</p>
-                      </button>
-                    ))}
+                          >
+                            <Icon
+                              className={cn(
+                                "w-6 h-6",
+                                data.goal === goal.id
+                                  ? "text-primary-foreground"
+                                  : "text-muted-foreground"
+                              )}
+                            />
+                          </div>
+                          <p className="font-medium">{goal.label}</p>
+                          <p className="text-xs text-muted-foreground mt-1">{goal.description}</p>
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
               )}
@@ -219,34 +212,34 @@ const Onboarding = () => {
               {currentStep === 2 && (
                 <div>
                   <h1 className="text-3xl font-display font-bold mb-2">
-                    What's your monthly energy budget?
+                    {t.onboarding.steps.budget.title}
                   </h1>
                   <p className="text-muted-foreground mb-8">
-                    We'll help you stay within this target.
+                    {t.onboarding.steps.budget.description}
                   </p>
                   <div className="space-y-4">
                     <div>
                       <Label htmlFor="budget" className="text-base">
-                        Monthly budget (USD)
+                        {t.onboarding.steps.budget.title}
                       </Label>
                       <div className="relative mt-2">
                         <span className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground">
-                          $
+                          R$
                         </span>
                         <Input
                           id="budget"
                           type="number"
-                          placeholder="150"
+                          placeholder="250"
                           value={data.monthlyBudget}
                           onChange={(e) =>
                             setData({ ...data, monthlyBudget: e.target.value })
                           }
-                          className="pl-8 h-14 text-lg rounded-xl"
+                          className="pl-10 h-14 text-lg rounded-xl"
                         />
                       </div>
                     </div>
                     <p className="text-sm text-muted-foreground">
-                      💡 The average US household spends about $120-150/month on energy.
+                      💡 {t.onboarding.steps.budget.hint}
                     </p>
                   </div>
                 </div>
@@ -256,19 +249,19 @@ const Onboarding = () => {
               {currentStep === 3 && (
                 <div>
                   <h1 className="text-3xl font-display font-bold mb-2">
-                    How many people in your household?
+                    {t.onboarding.steps.household.title}
                   </h1>
                   <p className="text-muted-foreground mb-8">
-                    This helps us provide accurate insights.
+                    {t.onboarding.steps.household.description}
                   </p>
                   <div className="grid grid-cols-2 gap-4">
-                    {householdSizes.map((size) => (
+                    {t.onboarding.steps.household.options.map((size, index) => (
                       <button
-                        key={size.value}
-                        onClick={() => setData({ ...data, householdSize: size.value })}
+                        key={size}
+                        onClick={() => setData({ ...data, householdSize: String(index + 1) })}
                         className={cn(
                           "p-6 rounded-2xl border-2 text-left transition-all hover:border-primary/50",
-                          data.householdSize === size.value
+                          data.householdSize === String(index + 1)
                             ? "border-primary bg-primary/5 shadow-glow"
                             : "border-border bg-card"
                         )}
@@ -276,7 +269,7 @@ const Onboarding = () => {
                         <div
                           className={cn(
                             "w-12 h-12 rounded-xl flex items-center justify-center mb-4",
-                            data.householdSize === size.value
+                            data.householdSize === String(index + 1)
                               ? "gradient-hero"
                               : "bg-secondary"
                           )}
@@ -284,13 +277,13 @@ const Onboarding = () => {
                           <Users
                             className={cn(
                               "w-6 h-6",
-                              data.householdSize === size.value
+                              data.householdSize === String(index + 1)
                                 ? "text-primary-foreground"
                                 : "text-muted-foreground"
                             )}
                           />
                         </div>
-                        <p className="font-medium">{size.label}</p>
+                        <p className="font-medium">{size}</p>
                       </button>
                     ))}
                   </div>
@@ -304,25 +297,24 @@ const Onboarding = () => {
                     <Check className="w-10 h-10 text-primary-foreground" />
                   </div>
                   <h1 className="text-3xl font-display font-bold mb-2">
-                    You're all set!
+                    {t.onboarding.success.title}
                   </h1>
                   <p className="text-muted-foreground mb-8">
-                    Your personalized dashboard is ready. Let's start tracking 
-                    your energy usage and saving money.
+                    {t.onboarding.success.description}
                   </p>
                   <div className="p-6 rounded-2xl bg-secondary/50 text-left space-y-3 mb-8">
                     <div className="flex justify-between">
-                      <span className="text-muted-foreground">Plan</span>
+                      <span className="text-muted-foreground">{t.pricing.badge}</span>
                       <span className="font-medium">{planData?.plan || "Free"}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-muted-foreground">Monthly Budget</span>
-                      <span className="font-medium">${data.monthlyBudget}</span>
+                      <span className="text-muted-foreground">{t.onboarding.steps.budget.title}</span>
+                      <span className="font-medium">R${data.monthlyBudget}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-muted-foreground">Household Size</span>
+                      <span className="text-muted-foreground">{t.onboarding.steps.household.title}</span>
                       <span className="font-medium">
-                        {householdSizes.find((s) => s.value === data.householdSize)?.label}
+                        {t.onboarding.steps.household.options[parseInt(data.householdSize) - 1] || data.householdSize}
                       </span>
                     </div>
                   </div>
@@ -340,7 +332,7 @@ const Onboarding = () => {
               className={cn(currentStep === 1 && "invisible")}
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
-              Back
+              {t.onboarding.previous}
             </Button>
             <Button
               variant="hero"
@@ -348,7 +340,7 @@ const Onboarding = () => {
               onClick={handleNext}
               disabled={!canProceed()}
             >
-              {currentStep === 4 ? "Go to Dashboard" : "Continue"}
+              {currentStep === 4 ? t.onboarding.success.cta : t.onboarding.next}
               <ArrowRight className="w-4 h-4 ml-2" />
             </Button>
           </div>
