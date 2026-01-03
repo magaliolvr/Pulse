@@ -8,6 +8,8 @@ import {
   TrendingDown,
   Wallet,
   Zap,
+  TreePine,
+  Sun,
 } from "lucide-react";
 import {
   LineChart as RechartsLineChart,
@@ -26,6 +28,9 @@ import { DEFAULT_PLAN, PLAN_MULTIPLIERS } from "@/constants/plans";
 import type { SubscriptionPlan } from "@/constants/plans";
 import { APP_CONFIG } from "@/config/app";
 import type { DataSource, ManualDataEntry } from "./DataScreen";
+
+// Import nature icon
+import iconTree from "@/assets/icon-tree.png";
 
 const generateDailyData = () => {
   return Array.from({ length: 7 }, (_, i) => ({
@@ -77,8 +82,13 @@ const KPICard = ({ title, value, change, changeLabel, icon: Icon, trend, loading
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="p-6 bg-card rounded-2xl shadow-soft border border-border/50 hover:shadow-lg transition-shadow"
+      className="p-6 bg-card rounded-2xl shadow-soft border border-border/50 hover:shadow-nature transition-shadow relative overflow-hidden group"
     >
+      {/* Subtle nature decoration */}
+      <div className="absolute -top-2 -right-2 w-16 h-16 opacity-0 group-hover:opacity-10 transition-opacity duration-500">
+        <img src={iconTree} alt="" className="w-full h-full object-contain" aria-hidden="true" />
+      </div>
+      
       <div className="flex items-center justify-between mb-4">
         <span className="text-muted-foreground text-sm">{title}</span>
         <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
@@ -291,15 +301,23 @@ export const OverviewScreen = ({ dataSource, manualData }: OverviewScreenProps) 
         </motion.div>
       </div>
 
-      {/* Quick Actions / Insights */}
+      {/* Quick Actions / Insights with nature theme */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.4 }}
-        className="p-6 bg-gradient-to-r from-primary/10 to-accent/10 rounded-2xl border border-primary/20"
+        className="p-6 bg-gradient-to-r from-primary/10 via-success/5 to-primary/10 rounded-2xl border border-primary/20 relative overflow-hidden"
       >
-        <div className="flex items-start gap-4">
-          <div className="w-12 h-12 rounded-xl gradient-hero flex items-center justify-center flex-shrink-0">
+        {/* Decorative nature elements */}
+        <div className="absolute top-0 right-0 w-32 h-32 opacity-10">
+          <TreePine className="w-full h-full text-primary" />
+        </div>
+        <div className="absolute bottom-0 left-1/2 w-24 h-24 opacity-5">
+          <Sun className="w-full h-full text-warning" />
+        </div>
+        
+        <div className="flex items-start gap-4 relative">
+          <div className="w-12 h-12 rounded-xl gradient-nature flex items-center justify-center flex-shrink-0">
             <Leaf className="w-6 h-6 text-primary-foreground" />
           </div>
           <div className="flex-1">
@@ -319,6 +337,21 @@ export const OverviewScreen = ({ dataSource, manualData }: OverviewScreenProps) 
             </div>
           </div>
         </div>
+      </motion.div>
+
+      {/* Eco tip of the day */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.5 }}
+        className="p-4 bg-success/5 rounded-xl border border-success/20 flex items-center gap-3"
+      >
+        <div className="w-8 h-8 rounded-full bg-success/20 flex items-center justify-center flex-shrink-0">
+          <Leaf className="w-4 h-4 text-success" />
+        </div>
+        <p className="text-sm text-muted-foreground flex-1">
+          <span className="font-medium text-foreground">Sabia que?</span> Desligar os aparelhos em standby pode poupar até 10% na fatura de eletricidade.
+        </p>
       </motion.div>
     </div>
   );
