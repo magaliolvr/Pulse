@@ -6,94 +6,111 @@
 
 @layer base {
   :root {
-    --background: 0 0% 99%;
-    --foreground: 220 20% 10%;
+    --background: 150 10% 98%;
+    --foreground: 200 25% 12%;
 
     --card: 0 0% 100%;
-    --card-foreground: 220 20% 10%;
+    --card-foreground: 200 25% 12%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 220 20% 10%;
+    --popover-foreground: 200 25% 12%;
 
-    --primary: 162 72% 42%;
+    /* Teal/Petrol Blue - Trustworthy & Professional */
+    --primary: 174 58% 38%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 220 14% 96%;
-    --secondary-foreground: 220 20% 20%;
+    --secondary: 170 15% 95%;
+    --secondary-foreground: 200 25% 20%;
 
-    --muted: 220 14% 96%;
-    --muted-foreground: 220 10% 46%;
+    --muted: 170 12% 94%;
+    --muted-foreground: 200 10% 45%;
 
-    --accent: 24 95% 60%;
+    /* Warm Coral - Approachable CTA */
+    --accent: 16 80% 58%;
     --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 84% 60%;
+    --destructive: 0 72% 55%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 162 72% 42%;
+    --border: 170 12% 88%;
+    --input: 170 12% 88%;
+    --ring: 174 58% 38%;
 
     --radius: 0.75rem;
 
-    /* Custom tokens */
-    --gradient-start: 162 72% 42%;
-    --gradient-end: 180 60% 50%;
-    --gradient-accent: 24 95% 60%;
+    /* Custom tokens - Nature inspired */
+    --gradient-start: 174 58% 38%;
+    --gradient-end: 168 50% 45%;
+    --gradient-accent: 16 80% 58%;
     
-    --success: 158 64% 40%;
+    /* Success - Fresh Mint Green */
+    --success: 158 55% 42%;
     --success-foreground: 0 0% 100%;
     
-    --warning: 38 92% 50%;
+    /* Warning - Warm Amber */
+    --warning: 38 85% 52%;
     --warning-foreground: 0 0% 100%;
 
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 162 72% 42%;
+    /* Sidebar */
+    --sidebar-background: 170 15% 97%;
+    --sidebar-foreground: 200 20% 25%;
+    --sidebar-primary: 174 58% 38%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 170 15% 93%;
+    --sidebar-accent-foreground: 200 20% 15%;
+    --sidebar-border: 170 12% 88%;
+    --sidebar-ring: 174 58% 38%;
+
+    /* Nature palette extras */
+    --nature-leaf: 142 50% 45%;
+    --nature-sky: 198 65% 55%;
+    --nature-earth: 30 30% 50%;
+    --nature-water: 190 60% 50%;
   }
 
   .dark {
-    --background: 220 20% 6%;
-    --foreground: 0 0% 98%;
+    --background: 200 25% 7%;
+    --foreground: 150 10% 96%;
 
-    --card: 220 20% 9%;
-    --card-foreground: 0 0% 98%;
+    --card: 200 25% 10%;
+    --card-foreground: 150 10% 96%;
 
-    --popover: 220 20% 9%;
-    --popover-foreground: 0 0% 98%;
+    --popover: 200 25% 10%;
+    --popover-foreground: 150 10% 96%;
 
-    --primary: 162 72% 50%;
-    --primary-foreground: 220 20% 6%;
+    --primary: 174 55% 48%;
+    --primary-foreground: 200 25% 7%;
 
-    --secondary: 220 14% 14%;
-    --secondary-foreground: 0 0% 98%;
+    --secondary: 200 20% 15%;
+    --secondary-foreground: 150 10% 96%;
 
-    --muted: 220 14% 14%;
-    --muted-foreground: 220 10% 60%;
+    --muted: 200 20% 15%;
+    --muted-foreground: 170 10% 58%;
 
-    --accent: 24 95% 55%;
+    --accent: 16 75% 55%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 62% 50%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 220 14% 18%;
-    --input: 220 14% 18%;
-    --ring: 162 72% 50%;
+    --border: 200 20% 18%;
+    --input: 200 20% 18%;
+    --ring: 174 55% 48%;
 
-    --sidebar-background: 220 20% 8%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 162 72% 50%;
+    --sidebar-background: 200 25% 8%;
+    --sidebar-foreground: 170 10% 92%;
+    --sidebar-primary: 174 55% 48%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 220 14% 14%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 220 14% 18%;
-    --sidebar-ring: 162 72% 50%;
+    --sidebar-accent: 200 20% 15%;
+    --sidebar-accent-foreground: 170 10% 92%;
+    --sidebar-border: 200 20% 18%;
+    --sidebar-ring: 174 55% 48%;
+
+    /* Nature palette extras - dark */
+    --nature-leaf: 142 45% 50%;
+    --nature-sky: 198 60% 55%;
+    --nature-earth: 30 25% 45%;
+    --nature-water: 190 55% 50%;
   }
 }
 
@@ -113,26 +130,43 @@
 
 @layer utilities {
   .gradient-primary {
-    @apply bg-gradient-to-r from-primary to-[hsl(180,60%,50%)];
+    @apply bg-gradient-to-r from-primary to-[hsl(168,50%,45%)];
   }
 
   .gradient-hero {
-    @apply bg-gradient-to-br from-[hsl(162,72%,42%)] via-[hsl(170,65%,45%)] to-[hsl(180,60%,50%)];
+    @apply bg-gradient-to-br from-[hsl(174,58%,38%)] via-[hsl(170,55%,42%)] to-[hsl(168,50%,45%)];
   }
 
   .gradient-text {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-[hsl(180,60%,50%)];
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-[hsl(168,50%,45%)];
+  }
+
+  .gradient-nature {
+    @apply bg-gradient-to-br from-[hsl(174,58%,38%)] via-[hsl(158,55%,42%)] to-[hsl(142,50%,45%)];
   }
 
   .glass {
     @apply bg-white/80 backdrop-blur-xl border border-white/20;
   }
 
+  .glass-card {
+    @apply bg-white/90 backdrop-blur-md border border-border/50 shadow-soft;
+  }
+
   .shadow-soft {
-    box-shadow: 0 4px 20px -2px hsl(220 20% 10% / 0.08);
+    box-shadow: 0 4px 20px -2px hsl(200 25% 12% / 0.06);
   }
 
   .shadow-glow {
-    box-shadow: 0 0 40px -10px hsl(162 72% 42% / 0.4);
+    box-shadow: 0 0 40px -10px hsl(174 58% 38% / 0.35);
+  }
+
+  .shadow-nature {
+    box-shadow: 0 8px 30px -8px hsl(158 55% 42% / 0.25);
+  }
+
+  /* Trust indicator styles */
+  .trust-badge {
+    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-medium;
   }
 }
