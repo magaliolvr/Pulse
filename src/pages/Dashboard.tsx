@@ -15,7 +15,8 @@ import {
   RefreshCw,
   LogOut,
   User,
-  Database
+  Database,
+  Trophy
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -36,11 +37,12 @@ import { ImpactScreen } from "@/components/dashboard/ImpactScreen";
 import { AlertsScreen } from "@/components/dashboard/AlertsScreen";
 import { SettingsScreen } from "@/components/dashboard/SettingsScreen";
 import { DataScreen, DataSource, ManualDataEntry } from "@/components/dashboard/DataScreen";
+import { RewardsScreen } from "@/components/dashboard/RewardsScreen";
 import { getInitials } from "@/utils/formatters";
 import { DEFAULT_PLAN } from "@/constants/plans";
 import { ROUTES } from "@/constants/routes";
 
-type DashboardScreen = "overview" | "analytics" | "finances" | "impact" | "alerts" | "settings" | "data";
+type DashboardScreen = "overview" | "analytics" | "finances" | "impact" | "alerts" | "settings" | "data" | "rewards";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -69,6 +71,7 @@ const Dashboard = () => {
     { id: "analytics", icon: LineChart, label: t.dashboard.menu.analytics },
     { id: "finances", icon: Wallet, label: t.dashboard.kpi.cost.title },
     { id: "impact", icon: Leaf, label: t.features.items[5]?.title || "Impacto" },
+    { id: "rewards", icon: Trophy, label: t.dashboard.rewards?.title || "Recompensas" },
     { id: "alerts", icon: Bell, label: t.dashboard.menu.alerts },
     { id: "data", icon: Database, label: "Dados" },
     { id: "settings", icon: Settings, label: t.dashboard.menu.settings },
@@ -84,6 +87,8 @@ const Dashboard = () => {
         return <FinancesScreen dataSource={dataSource} manualData={manualData} />;
       case "impact":
         return <ImpactScreen />;
+      case "rewards":
+        return <RewardsScreen />;
       case "alerts":
         return <AlertsScreen />;
       case "data":
