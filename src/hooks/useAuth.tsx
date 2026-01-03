@@ -13,7 +13,7 @@ interface AuthContextType {
   signIn: (email: string, password: string) => Promise<{ error: AuthError | null }>;
   signInWithProvider: (provider: "google" | "facebook" | "apple") => Promise<{ error: AuthError | null }>;
   signOut: () => Promise<void>;
-  updateProfile: (updates: Partial<Profile>) => Promise<{ error: AuthError | null }>;
+  updateProfile: (updates: Partial<Profile>) => Promise<{ error: Error | null }>;
   refreshProfile: () => Promise<void>;
 }
 
@@ -140,13 +140,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     fetchingProfileRef.current = null;
   };
 
-  const updateProfile = async (updates: Partial<Profile>): Promise<{ error: AuthError | null }> => {
+  const updateProfile = async (updates: Partial<Profile>): Promise<{ error: Error | null }> => {
     if (!user) {
-      const error: AuthError = {
-        name: "AuthError",
-        message: "No user logged in",
-      };
-      return { error };
+      return { error: new Error("No user logged in") };
     }
 
     const { error } = await supabase
@@ -158,8 +154,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setProfile((prev) => prev ? { ...prev, ...updates } : null);
     }
     
-    // Database errors from Supabase are compatible with AuthError structure
-    return { error: error as AuthError | null };
+    return { error: error ? new Error(error.message) : null };
   };
 
   const refreshProfile = async () => {

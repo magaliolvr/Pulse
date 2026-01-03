@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { useAuth } from "@/hooks/useAuth";
@@ -14,15 +15,7 @@ import {
 } from "recharts";
 import { Wallet, TrendingDown, Receipt, PiggyBank, CreditCard, Euro } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-const monthlyExpenses = [
-  { month: "Jul", actual: 95, budget: 120 },
-  { month: "Ago", actual: 88, budget: 120 },
-  { month: "Set", actual: 102, budget: 120 },
-  { month: "Out", actual: 78, budget: 110 },
-  { month: "Nov", actual: 85, budget: 110 },
-  { month: "Dez", actual: 92, budget: 110 },
-];
+import type { DataSource, ManualDataEntry } from "./DataScreen";
 
 const projectionData = [
   { month: "Jan", projected: 82, optimized: 68 },
@@ -33,14 +26,58 @@ const projectionData = [
   { month: "Jun", projected: 68, optimized: 52 },
 ];
 
-export const FinancesScreen = () => {
+interface FinancesScreenProps {
+  dataSource: DataSource;
+  manualData: ManualDataEntry[];
+}
+
+export const FinancesScreen = ({ dataSource, manualData }: FinancesScreenProps) => {
   const { t } = useLanguage();
   const { profile } = useAuth();
   
   const budget = profile?.monthly_budget || 100;
-  const currentSpend = Math.floor(budget * 0.72);
-  const savings = Math.floor(budget * 0.23);
-  const yearlyProjected = savings * 12;
+
+  // Calculate values based on data source
+  const financialData = useMemo(() => {
+    if (dataSource === "manual" && manualData.length > 0) {
+      const totalCost = manualData.reduce((sum, entry) => sum + entry.cost, 0);
+      const avgCost = Math.round(totalCost / manualData.length);
+      const savings = Math.round(budget - avgCost);
+      
+      // Generate expenses from manual data
+      const expenses = manualData.map(entry => ({
+        month: entry.month.substring(0, 3),
+        actual: entry.cost,
+        budget: budget,
+      }));
+      
+      return {
+        currentSpend: avgCost,
+        savings: savings > 0 ? savings : 0,
+        yearlyProjected: (savings > 0 ? savings : 0) * 12,
+        expenses,
+      };
+    }
+    
+    // Default simulated values
+    const currentSpend = Math.floor(budget * 0.72);
+    const savings = Math.floor(budget * 0.23);
+    const defaultExpenses = [
+      { month: "Jul", actual: 95, budget: 120 },
+      { month: "Ago", actual: 88, budget: 120 },
+      { month: "Set", actual: 102, budget: 120 },
+      { month: "Out", actual: 78, budget: 110 },
+      { month: "Nov", actual: 85, budget: 110 },
+      { month: "Dez", actual: 92, budget: 110 },
+    ];
+    
+    return {
+      currentSpend,
+      savings,
+      yearlyProjected: savings * 12,
+      expenses: defaultExpenses,
+    };
+  }, [dataSource, manualData, budget]);
 
   return (
     <div className="space-y-6">
@@ -73,8 +110,8 @@ export const FinancesScreen = () => {
             <Receipt className="w-5 h-5 text-accent" />
             <span className="text-sm text-muted-foreground">Gasto Atual</span>
           </div>
-          <p className="text-2xl font-bold">€{currentSpend}</p>
-          <p className="text-xs text-muted-foreground">{Math.round((currentSpend / budget) * 100)}% do orçamento</p>
+          <p className="text-2xl font-bold">€{financialData.currentSpend}</p>
+          <p className="text-xs text-muted-foreground">{Math.round((financialData.currentSpend / budget) * 100)}% do orçamento</p>
         </motion.div>
 
         <motion.div
@@ -87,7 +124,7 @@ export const FinancesScreen = () => {
             <PiggyBank className="w-5 h-5 text-success" />
             <span className="text-sm text-muted-foreground">Poupança Mensal</span>
           </div>
-          <p className="text-2xl font-bold text-success">€{savings}</p>
+          <p className="text-2xl font-bold text-success">€{financialData.savings}</p>
         </motion.div>
 
         <motion.div
@@ -100,7 +137,7 @@ export const FinancesScreen = () => {
             <TrendingDown className="w-5 h-5 text-primary" />
             <span className="text-sm text-muted-foreground">Projeção Anual</span>
           </div>
-          <p className="text-2xl font-bold text-primary">€{yearlyProjected}</p>
+          <p className="text-2xl font-bold text-primary">€{financialData.yearlyProjected}</p>
         </motion.div>
       </div>
 
@@ -127,7 +164,7 @@ export const FinancesScreen = () => {
             </div>
           </div>
           <ResponsiveContainer width="100%" height={250}>
-            <BarChart data={monthlyExpenses}>
+            <BarChart data={financialData.expenses}>
               <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
               <XAxis dataKey="month" stroke="hsl(var(--muted-foreground))" fontSize={12} />
               <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} />
