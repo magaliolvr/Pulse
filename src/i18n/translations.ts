@@ -293,7 +293,6 @@ export const translations = {
         unreadAlerts: "alertas por ler",
         noNewAlerts: "Nenhum alerta novo",
       },
-      loading: "Carregando...",
     },
     // Auth
     auth: {
@@ -645,7 +644,6 @@ export const translations = {
         unreadAlerts: "unread alerts",
         noNewAlerts: "No new alerts",
       },
-      loading: "Loading...",
     },
     // Auth
     auth: {

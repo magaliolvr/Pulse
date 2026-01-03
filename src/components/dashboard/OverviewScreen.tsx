@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { useAuth } from "@/hooks/useAuth";
@@ -25,6 +25,7 @@ import { ArrowDown, ArrowUp } from "lucide-react";
 import { DEFAULT_PLAN, PLAN_MULTIPLIERS } from "@/constants/plans";
 import type { SubscriptionPlan } from "@/constants/plans";
 import { APP_CONFIG } from "@/config/app";
+import type { DataSource, ManualDataEntry } from "./DataScreen";
 
 const generateDailyData = () => {
   return Array.from({ length: 7 }, (_, i) => ({
@@ -41,6 +42,11 @@ const generateMonthlyData = () => {
     cost: Math.floor(Math.random() * 100) + 50,
   }));
 };
+
+interface OverviewScreenProps {
+  dataSource: DataSource;
+  manualData: ManualDataEntry[];
+}
 
 interface KPICardProps {
   title: string;
@@ -95,7 +101,7 @@ const KPICard = ({ title, value, change, changeLabel, icon: Icon, trend, loading
   );
 };
 
-export const OverviewScreen = () => {
+export const OverviewScreen = ({ dataSource, manualData }: OverviewScreenProps) => {
   const { t } = useLanguage();
   const { profile } = useAuth();
 
@@ -106,10 +112,42 @@ export const OverviewScreen = () => {
   const [dailyData, setDailyData] = useState<ReturnType<typeof generateDailyData>>([]);
   const [monthlyData, setMonthlyData] = useState<ReturnType<typeof generateMonthlyData>>([]);
 
-  const planMultiplier = PLAN_MULTIPLIERS[plan];
-  const currentSpend = Math.floor(budget * 0.72 * planMultiplier);
-  const projectedSavings = Math.floor(budget * 0.23 * planMultiplier);
-  const consumption = Math.floor(245 * planMultiplier);
+  // Calculate values based on data source
+  const calculatedValues = useMemo(() => {
+    if (dataSource === "manual" && manualData.length > 0) {
+      const totalConsumption = manualData.reduce((sum, entry) => sum + entry.consumption, 0);
+      const totalCost = manualData.reduce((sum, entry) => sum + entry.cost, 0);
+      const avgConsumption = Math.round(totalConsumption / manualData.length);
+      const avgCost = Math.round(totalCost / manualData.length);
+      const projectedSavings = Math.round(budget - avgCost);
+      
+      return {
+        consumption: avgConsumption,
+        currentSpend: avgCost,
+        projectedSavings: projectedSavings > 0 ? projectedSavings : 0,
+      };
+    }
+    
+    // Default simulated values
+    const planMultiplier = PLAN_MULTIPLIERS[plan];
+    return {
+      consumption: Math.floor(245 * planMultiplier),
+      currentSpend: Math.floor(budget * 0.72 * planMultiplier),
+      projectedSavings: Math.floor(budget * 0.23 * planMultiplier),
+    };
+  }, [dataSource, manualData, budget, plan]);
+
+  // Convert manual data to chart format
+  const manualMonthlyData = useMemo(() => {
+    if (dataSource === "manual" && manualData.length > 0) {
+      return manualData.map(entry => ({
+        month: entry.month.substring(0, 3),
+        consumption: entry.consumption,
+        cost: entry.cost,
+      }));
+    }
+    return monthlyData;
+  }, [dataSource, manualData, monthlyData]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -127,7 +165,7 @@ export const OverviewScreen = () => {
       <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
         <KPICard
           title={t.dashboard.kpi.consumption.title}
-          value={`${consumption} ${t.dashboard.kpi.consumption.unit}`}
+          value={`${calculatedValues.consumption} ${t.dashboard.kpi.consumption.unit}`}
           change={12}
           changeLabel={t.dashboard.kpi.consumption.change}
           icon={Zap}
@@ -136,7 +174,7 @@ export const OverviewScreen = () => {
         />
         <KPICard
           title={t.dashboard.kpi.cost.title}
-          value={`€${currentSpend}`}
+          value={`€${calculatedValues.currentSpend}`}
           change={8}
           changeLabel={t.dashboard.kpi.cost.change}
           icon={Wallet}
@@ -145,7 +183,7 @@ export const OverviewScreen = () => {
         />
         <KPICard
           title={t.dashboard.kpi.savings.title}
-          value={`€${projectedSavings}`}
+          value={`€${calculatedValues.projectedSavings}`}
           change={15}
           changeLabel={t.dashboard.kpi.savings.change}
           icon={TrendingDown}
@@ -154,7 +192,7 @@ export const OverviewScreen = () => {
         />
         <KPICard
           title={t.dashboard.kpi.budget.title}
-          value={`€${Math.round(budget - currentSpend)}`}
+          value={`€${Math.round(budget - calculatedValues.currentSpend)}`}
           change={5}
           changeLabel={t.dashboard.kpi.budget.status.onTrack}
           icon={BarChart3}
@@ -228,7 +266,7 @@ export const OverviewScreen = () => {
             </div>
           ) : (
             <ResponsiveContainer width="100%" height={250}>
-              <RechartsLineChart data={monthlyData}>
+              <RechartsLineChart data={manualMonthlyData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
                 <XAxis dataKey="month" stroke="hsl(var(--muted-foreground))" fontSize={12} />
                 <YAxis stroke="hsl(var(--muted-foreground))" fontSize={12} />

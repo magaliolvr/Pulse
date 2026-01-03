@@ -14,7 +14,8 @@ import {
   AlertCircle,
   RefreshCw,
   LogOut,
-  User
+  User,
+  Database
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -34,11 +35,12 @@ import { FinancesScreen } from "@/components/dashboard/FinancesScreen";
 import { ImpactScreen } from "@/components/dashboard/ImpactScreen";
 import { AlertsScreen } from "@/components/dashboard/AlertsScreen";
 import { SettingsScreen } from "@/components/dashboard/SettingsScreen";
+import { DataScreen, DataSource, ManualDataEntry } from "@/components/dashboard/DataScreen";
 import { getInitials } from "@/utils/formatters";
 import { DEFAULT_PLAN } from "@/constants/plans";
 import { ROUTES } from "@/constants/routes";
 
-type DashboardScreen = "overview" | "analytics" | "finances" | "impact" | "alerts" | "settings";
+type DashboardScreen = "overview" | "analytics" | "finances" | "impact" | "alerts" | "settings" | "data";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -49,6 +51,8 @@ const Dashboard = () => {
   const [activeScreen, setActiveScreen] = useState<DashboardScreen>("overview");
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [error, setError] = useState(false);
+  const [dataSource, setDataSource] = useState<DataSource>("simulated");
+  const [manualData, setManualData] = useState<ManualDataEntry[]>([]);
 
   const handleRetry = () => {
     setError(false);
@@ -66,25 +70,35 @@ const Dashboard = () => {
     { id: "finances", icon: Wallet, label: t.dashboard.kpi.cost.title },
     { id: "impact", icon: Leaf, label: t.features.items[5]?.title || "Impacto" },
     { id: "alerts", icon: Bell, label: t.dashboard.menu.alerts },
+    { id: "data", icon: Database, label: "Dados" },
     { id: "settings", icon: Settings, label: t.dashboard.menu.settings },
   ];
 
   const renderScreen = () => {
     switch (activeScreen) {
       case "overview":
-        return <OverviewScreen />;
+        return <OverviewScreen dataSource={dataSource} manualData={manualData} />;
       case "analytics":
-        return <AnalyticsScreen />;
+        return <AnalyticsScreen dataSource={dataSource} manualData={manualData} />;
       case "finances":
-        return <FinancesScreen />;
+        return <FinancesScreen dataSource={dataSource} manualData={manualData} />;
       case "impact":
         return <ImpactScreen />;
       case "alerts":
         return <AlertsScreen />;
+      case "data":
+        return (
+          <DataScreen 
+            dataSource={dataSource}
+            onDataSourceChange={setDataSource}
+            manualData={manualData}
+            onManualDataChange={setManualData}
+          />
+        );
       case "settings":
         return <SettingsScreen />;
       default:
-        return <OverviewScreen />;
+        return <OverviewScreen dataSource={dataSource} manualData={manualData} />;
     }
   };
 

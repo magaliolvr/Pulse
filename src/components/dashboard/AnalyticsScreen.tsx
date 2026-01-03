@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/i18n/LanguageContext";
 import {
@@ -15,6 +16,7 @@ import {
   Cell,
 } from "recharts";
 import { TrendingDown, TrendingUp, Zap, Clock, Calendar } from "lucide-react";
+import type { DataSource, ManualDataEntry } from "./DataScreen";
 
 const hourlyData = Array.from({ length: 24 }, (_, i) => ({
   hour: `${i}h`,
@@ -39,8 +41,31 @@ const deviceData = [
   { name: "Outros", value: 8, color: "hsl(var(--muted-foreground))" },
 ];
 
-export const AnalyticsScreen = () => {
+interface AnalyticsScreenProps {
+  dataSource: DataSource;
+  manualData: ManualDataEntry[];
+}
+
+export const AnalyticsScreen = ({ dataSource, manualData }: AnalyticsScreenProps) => {
   const { t } = useLanguage();
+
+  // Calculate stats based on data source
+  const stats = useMemo(() => {
+    if (dataSource === "manual" && manualData.length > 0) {
+      const totalConsumption = manualData.reduce((sum, entry) => sum + entry.consumption, 0);
+      const avgDaily = Math.round(totalConsumption / manualData.length / 30);
+      return {
+        avgDaily: `${avgDaily} kWh`,
+        reduction: manualData.length > 1 
+          ? Math.round(((manualData[0].consumption - manualData[manualData.length - 1].consumption) / manualData[0].consumption) * 100)
+          : 0,
+      };
+    }
+    return {
+      avgDaily: "27 kWh",
+      reduction: -18,
+    };
+  }, [dataSource, manualData]);
 
   return (
     <div className="space-y-6">
@@ -74,7 +99,7 @@ export const AnalyticsScreen = () => {
             <TrendingDown className="w-5 h-5 text-success" />
             <span className="text-sm text-muted-foreground">Redução semanal</span>
           </div>
-          <p className="text-2xl font-bold text-success">-18%</p>
+          <p className="text-2xl font-bold text-success">{stats.reduction}%</p>
           <p className="text-sm text-muted-foreground">vs. semana anterior</p>
         </motion.div>
 
@@ -88,7 +113,7 @@ export const AnalyticsScreen = () => {
             <Calendar className="w-5 h-5 text-accent" />
             <span className="text-sm text-muted-foreground">Média diária</span>
           </div>
-          <p className="text-2xl font-bold">27 kWh</p>
+          <p className="text-2xl font-bold">{stats.avgDaily}</p>
           <p className="text-sm text-muted-foreground">Este mês</p>
         </motion.div>
       </div>
