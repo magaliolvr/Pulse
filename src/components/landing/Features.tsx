@@ -1,10 +1,10 @@
 import { motion } from "framer-motion";
-import { 
-  BarChart3, 
-  Bell, 
-  Calculator, 
-  Leaf, 
-  LineChart, 
+import {
+  BarChart3,
+  Bell,
+  Calculator,
+  Leaf,
+  LineChart,
   Lightbulb,
   Target,
   Wallet
@@ -39,9 +39,9 @@ export function Features() {
   const { t } = useLanguage();
 
   return (
-    <section className="py-24 bg-secondary/30">
+    <section className="max-[600px]:py-12 py-24 bg-secondary/30">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
+        <div className="max-[600px]:mb-12 text-center mb-16">
           <motion.span
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}

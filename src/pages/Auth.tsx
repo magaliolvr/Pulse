@@ -15,14 +15,14 @@ import { SocialLoginButtons } from "@/components/auth/SocialLoginButtons";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { toast } from "@/hooks/use-toast";
 import { motion, AnimatePresence } from "framer-motion";
-import { 
-  ArrowLeft, 
-  ArrowRight, 
-  Check, 
-  Eye, 
-  EyeOff, 
-  Mail, 
-  User, 
+import {
+  ArrowLeft,
+  ArrowRight,
+  Check,
+  Eye,
+  EyeOff,
+  Mail,
+  User,
   Lock,
   Zap,
   Loader2
@@ -75,7 +75,7 @@ const Auth = () => {
 
   const checkEmailExists = async (email: string) => {
     if (!emailSchema.safeParse(email).success) return;
-    
+
     setCheckingEmail(true);
     // Check if email exists by trying to fetch profiles
     const { data } = await supabase
@@ -83,14 +83,14 @@ const Auth = () => {
       .select("email")
       .eq("email", email)
       .maybeSingle();
-    
+
     setEmailExists(!!data);
     setCheckingEmail(false);
   };
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!emailSchema.safeParse(loginData.email).success) {
       toast({
         title: t.auth.errors.invalidEmail,
@@ -101,7 +101,7 @@ const Auth = () => {
 
     setLoading(true);
     const { error } = await signIn(loginData.email, loginData.password);
-    
+
     if (error) {
       toast({
         title: t.auth.errors.loginFailed,
@@ -144,7 +144,7 @@ const Auth = () => {
 
     setLoading(true);
     const { error } = await signUp(signupData.email, signupData.password, signupData.fullName);
-    
+
     if (error) {
       toast({
         title: t.auth.errors.signupFailed,
@@ -154,7 +154,7 @@ const Auth = () => {
       setLoading(false);
       return;
     }
-    
+
     // Since auto-confirm is enabled, user is logged in directly
     // Navigate to onboarding
     toast({
@@ -189,7 +189,7 @@ const Auth = () => {
           <div className="absolute top-20 left-20 w-64 h-64 bg-white rounded-full blur-3xl" />
           <div className="absolute bottom-20 right-20 w-96 h-96 bg-white rounded-full blur-3xl" />
         </div>
-        
+
         <div className="relative z-10">
           <Link to={ROUTES.HOME} className="flex items-center gap-2 font-display font-bold text-2xl text-white">
             <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
@@ -228,7 +228,7 @@ const Auth = () => {
       </div>
 
       {/* Right Panel - Auth Forms */}
-      <div className="flex-1 flex items-center justify-center p-8">
+      <div className="max-[600px]:p-6 max-[600px]:flex-wrap flex items-center justify-center p-8">
         <div className="w-full max-w-md">
           {/* Mobile Logo */}
           <div className="lg:hidden flex items-center justify-center gap-2 mb-8">
@@ -312,10 +312,10 @@ const Auth = () => {
                     </div>
                   </div>
 
-                  <Button 
-                    type="submit" 
-                    variant="hero" 
-                    className="w-full h-12" 
+                  <Button
+                    type="submit"
+                    variant="hero"
+                    className="w-full h-12"
                     disabled={loading}
                   >
                     {loading ? (
@@ -535,7 +535,7 @@ const Auth = () => {
                         <Checkbox
                           id="terms"
                           checked={signupData.acceptTerms}
-                          onCheckedChange={(checked) => 
+                          onCheckedChange={(checked) =>
                             setSignupData({ ...signupData, acceptTerms: checked as boolean })
                           }
                         />

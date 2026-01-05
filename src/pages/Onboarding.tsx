@@ -3,12 +3,12 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { 
-  ArrowLeft, 
-  ArrowRight, 
-  Check, 
-  Target, 
-  Users, 
+import {
+  ArrowLeft,
+  ArrowRight,
+  Check,
+  Target,
+  Users,
   Wallet,
   Zap,
   Sparkles,
@@ -181,7 +181,7 @@ const Onboarding = () => {
       </div>
 
       {/* Right Panel - Content */}
-      <div className="flex-1 flex items-center justify-center p-8">
+      <div className="max-[600px]:p-6 flex-wrap flex-1 flex justify-center p-8">
         <div className="w-full max-w-lg">
           {/* Mobile Progress */}
           <div className="lg:hidden flex items-center gap-2 mb-8">
@@ -351,21 +351,21 @@ const Onboarding = () => {
                   <p className="text-muted-foreground mb-6">
                     {t.onboarding.planRecommendation.description}
                   </p>
-                  
+
                   <div className="p-6 rounded-2xl bg-gradient-to-br from-primary/10 to-accent/10 border border-primary/20 mb-6">
                     <div className="text-4xl font-display font-bold gradient-text mb-2">
-                      {recommendedPlan === "Free" 
-                        ? t.pricing.plans.free.name 
-                        : recommendedPlan === "Pro" 
-                          ? t.pricing.plans.pro.name 
+                      {recommendedPlan === "Free"
+                        ? t.pricing.plans.free.name
+                        : recommendedPlan === "Pro"
+                          ? t.pricing.plans.pro.name
                           : t.pricing.plans.family.name
                       }
                     </div>
                     <p className="text-muted-foreground">
-                      {recommendedPlan === "Free" 
-                        ? t.pricing.plans.free.description 
-                        : recommendedPlan === "Pro" 
-                          ? t.pricing.plans.pro.description 
+                      {recommendedPlan === "Free"
+                        ? t.pricing.plans.free.description
+                        : recommendedPlan === "Pro"
+                          ? t.pricing.plans.pro.description
                           : t.pricing.plans.family.description
                       }
                     </p>
@@ -375,11 +375,11 @@ const Onboarding = () => {
                     <p className="text-sm font-medium">{t.onboarding.planRecommendation.based}</p>
                     <div className="flex justify-between text-sm">
                       <span className="text-muted-foreground">{t.onboarding.steps.budget.title}</span>
-                      <span className="font-medium">€{data.monthlyBudget}</span>
+                      <span className="font-medium ml-2  text-right">€{data.monthlyBudget}</span>
                     </div>
                     <div className="flex justify-between text-sm">
                       <span className="text-muted-foreground">{t.onboarding.steps.household.title}</span>
-                      <span className="font-medium">
+                      <span className="font-medium ml-2  text-right">
                         {t.onboarding.steps.household.options[parseIntSafe(data.householdSize, 1) - 1] || data.householdSize}
                       </span>
                     </div>
@@ -429,7 +429,7 @@ const Onboarding = () => {
           </AnimatePresence>
 
           {/* Navigation */}
-          <div className="flex items-center justify-between mt-12">
+          <div className="min-[600px]:flex items-center justify-between mt-12">
             <Button
               variant="ghost"
               onClick={handleBack}

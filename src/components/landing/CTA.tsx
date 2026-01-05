@@ -8,7 +8,7 @@ export function CTA() {
   const { t } = useLanguage();
 
   return (
-    <section className="py-24">
+    <section className="max-[600px]:py-12py-24">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -28,8 +28,8 @@ export function CTA() {
               {t.cta.description}
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Button 
-                size="xl" 
+              <Button
+                size="xl"
                 className="bg-white text-primary hover:bg-white/90 shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all"
                 asChild
               >
@@ -38,9 +38,9 @@ export function CTA() {
                   <ArrowRight className="w-5 h-5" />
                 </Link>
               </Button>
-              <Button 
-                variant="ghost" 
-                size="lg" 
+              <Button
+                variant="ghost"
+                size="lg"
                 className="text-primary-foreground hover:bg-white/10"
                 asChild
               >

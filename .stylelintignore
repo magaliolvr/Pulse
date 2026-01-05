@@ -1,0 +1,7 @@
+node_modules
+dist
+build
+.next
+public
+src/**/*.generated.css
+src/**/*.min.css

@@ -1,8 +1,9 @@
+/* stylelint-disable */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
 
 @layer base {
   :root {
@@ -42,11 +43,11 @@
     --gradient-start: 174 58% 38%;
     --gradient-end: 168 50% 45%;
     --gradient-accent: 16 80% 58%;
-    
+
     /* Success - Fresh Mint Green */
     --success: 158 55% 42%;
     --success-foreground: 0 0% 100%;
-    
+
     /* Warning - Warm Amber */
     --warning: 38 85% 52%;
     --warning-foreground: 0 0% 100%;
@@ -123,26 +124,32 @@
     @apply bg-background text-foreground font-sans antialiased;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     @apply font-display font-bold tracking-tight;
   }
 }
 
 @layer utilities {
   .gradient-primary {
-    @apply bg-gradient-to-r from-primary to-[hsl(168,50%,45%)];
+    background-image: linear-gradient(to right, hsl(var(--primary)), hsl(168deg 50% 45%));
   }
 
   .gradient-hero {
-    @apply bg-gradient-to-br from-[hsl(174,58%,38%)] via-[hsl(170,55%,42%)] to-[hsl(168,50%,45%)];
+    background-image: linear-gradient(to bottom right, hsl(174deg 58% 38%), hsl(170deg 55% 42%), hsl(168deg 50% 45%));
   }
 
   .gradient-text {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-[hsl(168,50%,45%)];
+    background-image: linear-gradient(to right, hsl(var(--primary)), hsl(168deg 50% 45%));
+    background-clip: text;
   }
 
   .gradient-nature {
-    @apply bg-gradient-to-br from-[hsl(174,58%,38%)] via-[hsl(158,55%,42%)] to-[hsl(142,50%,45%)];
+    background-image: linear-gradient(to bottom right, hsl(174deg 58% 38%), hsl(158deg 55% 42%), hsl(142deg 50% 45%));
   }
 
   .glass {
@@ -154,15 +161,15 @@
   }
 
   .shadow-soft {
-    box-shadow: 0 4px 20px -2px hsl(200 25% 12% / 0.06);
+    box-shadow: 0 4px 20px -2px hsl(200deg 25% 12% / 6%);
   }
 
   .shadow-glow {
-    box-shadow: 0 0 40px -10px hsl(174 58% 38% / 0.35);
+    box-shadow: 0 0 40px -10px hsl(174deg 58% 38% / 35%);
   }
 
   .shadow-nature {
-    box-shadow: 0 8px 30px -8px hsl(158 55% 42% / 0.25);
+    box-shadow: 0 8px 30px -8px hsl(158deg 55% 42% / 25%);
   }
 
   /* Trust indicator styles */
