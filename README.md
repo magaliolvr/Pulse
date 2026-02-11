@@ -78,10 +78,6 @@ Lovable – prototipagem rápida e desenvolvimento de interfaces funcionais
 
 AI-assisted development – para acelerar iterações e testes de design
 
-Figma – apoio visual e conceitual
-
-Design system thinking – para consistência em cores, tipografia e componentes
-
 🌍 Dados do usuário
 
 Para este protótipo, os valores do dashboard são simulados dinamicamente com base nos inputs do usuário no onboarding.
@@ -198,10 +194,6 @@ Lovable – prototipagem rápida e desenvolvimento de interfaces funcionais
 
 AI-assisted development (ChatGPT, Cursor) – aceleração de prototipagem e ajustes de design
 
-Figma – apoio visual e conceitual
-
-Design system thinking – consistência de cores, tipografia e componentes
-
 🌍 Dados do usuário
 
 Valores iniciais simulados
@@ -217,8 +209,3 @@ Preparado para futuras integrações com APIs de fornecedores de energia
 O Pulse demonstra a evolução de um protótipo funcional para uma plataforma mais confiável, inclusiva e motivacional.
 A segunda versão destaca-se pelo foco em credibilidade, diversidade, gamificação e transparência dos dados, mostrando como produtos digitais podem ser simples, bonitos e funcionais, mesmo em protótipos rápidos.
 
-Prototipar dashboards e fluxos de subscrição
-
-Demonstrar uso prático do Lovable e ferramentas AI-assisted
-
-O projeto mostra como é possível criar produtos digitais funcionais e visualmente polidos, mesmo em protótipos rápidos.
