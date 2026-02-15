@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState, useRef, ReactNode } from "react";
 import type { User, Session, AuthError } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
+import { lovable } from "@/integrations/lovable/index";
 import type { Profile } from "@/types/auth";
 import { ROUTES } from "@/constants/routes";
 
@@ -11,7 +12,7 @@ interface AuthContextType {
   loading: boolean;
   signUp: (email: string, password: string, fullName: string) => Promise<{ error: AuthError | null }>;
   signIn: (email: string, password: string) => Promise<{ error: AuthError | null }>;
-  signInWithProvider: (provider: "google" | "facebook" | "apple") => Promise<{ error: AuthError | null }>;
+  signInWithProvider: (provider: "google" | "apple") => Promise<{ error: Error | null }>;
   signOut: () => Promise<void>;
   updateProfile: (updates: Partial<Profile>) => Promise<{ error: Error | null }>;
   refreshProfile: () => Promise<void>;
@@ -145,14 +146,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return { error };
   };
 
-  const signInWithProvider = async (provider: "google" | "facebook" | "apple"): Promise<{ error: AuthError | null }> => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider,
-      options: {
-        redirectTo: `${window.location.origin}${ROUTES.DASHBOARD}`,
-      },
+  const signInWithProvider = async (provider: "google" | "apple"): Promise<{ error: Error | null }> => {
+    const { error } = await lovable.auth.signInWithOAuth(provider, {
+      redirect_uri: window.location.origin,
     });
-    return { error };
+    return { error: error ? (error instanceof Error ? error : new Error(String(error))) : null };
   };
 
   const signOut = async (): Promise<void> => {
