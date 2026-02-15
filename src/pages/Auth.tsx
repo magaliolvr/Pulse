@@ -228,7 +228,7 @@ const Auth = () => {
       </div>
 
       {/* Right Panel - Auth Forms */}
-      <div className="max-[600px]:p-6 max-[600px]:flex-wrap flex items-center justify-center p-8">
+      <div className="flex-1 flex items-center justify-center p-8 max-[600px]:p-6">
         <div className="w-full max-w-md">
           {/* Mobile Logo */}
           <div className="lg:hidden flex items-center justify-center gap-2 mb-8">
